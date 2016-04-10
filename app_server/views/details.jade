@@ -1,3 +1,4 @@
+include _includes/helper_functions.jade
 extends layout
 
 block content
@@ -52,11 +53,11 @@ block content
                           option(value = '#{level}' sameLevel? selected) #{level}
                   .form-group
                     label Date Added
-                    p.form-control-static= tasks[0].dateAdded
-                    input.form-control(type='date' value = '#{tasks[0].dateAdded}' disabled)
+                    p.form-control-static
+                      +simplifyDate(tasks[0].dateAdded)
                   .form-group
                     label Due Date
-                    input.form-control(type='date' value='2016-04-09')
+                    //- input.form-control(type='date' value=#{+simplifyDate(tasks[0].dateAdded)}')
                   .form-group
                     label Details 
                     textarea.form-control(rows='10')

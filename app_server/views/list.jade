@@ -1,3 +1,4 @@
+include _includes/helper_functions.jade
 extends layout
 
 block content
@@ -23,19 +24,6 @@ block content
                   td= task.name
                   td
                     form(action="/details", method="get", role="form")
-                      button.btn-primary.pull-right View/Edit Details 
-             //-  tr
-             //-    td
-             //-      input(type='checkbox')
-             //-    td take walk
-             //-    td
-             //-      form(action="/details", method="get", role="form")
-             //-        button.btn-primary.pull-right View/Edit Details 
-             //- tr
-             //-    td
-             //-      input(type='checkbox')
-             //-    td end world hunger
-             //-    td
-             //-      form(action="/details", method="get", role="form")
-             //-        button.btn-primary.pull-right View/Edit Details 
+                      button.btn-primary.pull-right View/Edit Details
           button.btn-primary Mark Checked Tasks as Completed
+          +simplifyDate(tasks[0].dateAdded)
