@@ -1,0 +1,66 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  .container
+    .row
+      .col-xs-12.col-sm-6
+        .panel.panel-primary
+          .panel-heading
+            .panel-title 
+              h4 Task Info
+          .panel-body
+            table.table
+              tr
+                td
+                 b Task
+                td= tasks[0].name
+              tr
+                td
+                  b Date Added
+                td= tasks[0].dateAdded.getMonth()+1+'/'+tasks[0].dateAdded.getDate()+'/'+tasks[0].dateAdded.getFullYear() 
+              tr
+                td 
+                  b Due Date
+                td= tasks[0].dateDue.getMonth()+1+'/'+tasks[0].dateDue.getDate()+'/'+tasks[0].dateDue.getFullYear() 
+              tr
+                td 
+                  b Priority
+                  td= tasks[0].priority
+              tr
+                td 
+                  b Details
+                td
+                  p= tasks[0].details
+      .col-xs-12.col-sm-6
+        .panel.panel-primary
+            .panel-heading
+              .panel-title 
+                h4 Update Info
+            .panel-body
+              form(action="/", method="get", role="form").panel-form
+                .row
+                  .form-group
+                    label Task Name
+                    input.form-control(type='text' value='#{tasks[0].name}')
+                  .form-group
+                    label Priority Level
+                    select.form-control
+                      each level in levels
+                        -var sameLevel = (level===tasks[0].priority)
+                          option(value = '#{level}' sameLevel? selected) #{level}
+                  .form-group
+                    label Date Added
+                    p.form-control-static= tasks[0].dateAdded
+                    input.form-control(type='date' value = '#{tasks[0].dateAdded}' disabled)
+                  .form-group
+                    label Due Date
+                    input.form-control(type='date' value='2016-04-09')
+                  .form-group
+                    label Details 
+                    textarea.form-control(rows='10')
+                      |#{tasks[0].details}
+                  button.btn-primary.pull-right
+                    .i.glyphicon.glyphicon-check
+                    |  Submit

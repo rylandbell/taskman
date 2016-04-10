@@ -1,0 +1,41 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  .container
+    .row
+      .panel.panel-primary
+        .panel-heading
+        .panel-body
+          table.table.table-striped
+            thead
+              tr
+                th#check Finished?
+                th#taskname Task Name
+                th#details
+                  .pull-right Details
+            tbody
+              each task in tasks
+                tr
+                  td
+                    input(type='checkbox')
+                  td= task.name
+                  td
+                    form(action="/details", method="get", role="form")
+                      button.btn-primary.pull-right View/Edit Details 
+             //-  tr
+             //-    td
+             //-      input(type='checkbox')
+             //-    td take walk
+             //-    td
+             //-      form(action="/details", method="get", role="form")
+             //-        button.btn-primary.pull-right View/Edit Details 
+             //- tr
+             //-    td
+             //-      input(type='checkbox')
+             //-    td end world hunger
+             //-    td
+             //-      form(action="/details", method="get", role="form")
+             //-        button.btn-primary.pull-right View/Edit Details 
+          button.btn-primary Mark Checked Tasks as Completed

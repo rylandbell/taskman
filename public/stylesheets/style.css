@@ -1,0 +1,20 @@
+body {
+	padding-top: 70px;
+}
+
+#check {
+	width: 10%;
+}
+
+#taskname {
+	width: 70%;
+}
+
+#details {
+	width: 20%;
+}
+
+.panel-form {
+	padding: 0 15px;	
+}
+
