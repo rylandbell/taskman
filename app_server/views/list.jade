@@ -22,8 +22,9 @@ block content
                   td
                     input(type='checkbox')
                   td= task.name
+                    -if(task.flagged)
+                      span.pull-right.glyphicon.glyphicon-fire
                   td
                     form(action="/details", method="get", role="form")
                       button.btn-primary.pull-right View/Edit Details
           button.btn-primary Mark Checked Tasks as Completed
-          +simplifyDate(tasks[0].dateAdded)

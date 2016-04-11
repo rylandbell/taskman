@@ -20,15 +20,15 @@ block content
               tr
                 td
                   b Date Added
-                td= tasks[0].dateAdded.getMonth()+1+'/'+tasks[0].dateAdded.getDate()+'/'+tasks[0].dateAdded.getFullYear() 
+                td= tasks[0].dateAdded 
               tr
                 td 
                   b Due Date
-                td= tasks[0].dateDue.getMonth()+1+'/'+tasks[0].dateDue.getDate()+'/'+tasks[0].dateDue.getFullYear() 
+                td= tasks[0].dateDue
               tr
                 td 
-                  b Priority
-                  td= tasks[0].priority
+                  b Flagged?
+                  td= tasks[0].flagged
               tr
                 td 
                   b Details
@@ -46,18 +46,15 @@ block content
                     label Task Name
                     input.form-control(type='text' value='#{tasks[0].name}')
                   .form-group
-                    label Priority Level
-                    select.form-control
-                      each level in levels
-                        -var sameLevel = (level===tasks[0].priority)
-                          option(value = '#{level}' sameLevel? selected) #{level}
+                    label Flagged?
+                    input.form-control(type='checkbox' checked=tasks[0].flagged)
                   .form-group
                     label Date Added
                     p.form-control-static
-                      +simplifyDate(tasks[0].dateAdded)
+                      =tasks[0].dateAdded
                   .form-group
                     label Due Date
-                    //- input.form-control(type='date' value=#{+simplifyDate(tasks[0].dateAdded)}')
+                    input.form-control(type='date' value='#{tasks[0].dateDue}')
                   .form-group
                     label Details 
                     textarea.form-control(rows='10')
