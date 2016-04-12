@@ -34,6 +34,8 @@ function simplifyDate(date){
   return outputDate;
 }
 
+//Instructions to render each page:
+
 /* GET task list */
 module.exports.list = function(req, res, next) {
   res.render('list', {
