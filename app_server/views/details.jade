@@ -16,24 +16,24 @@ block content
               tr
                 td
                  b Task
-                td= tasks[0].name
+                td= task.name
               tr
                 td
                   b Date Added
-                td= tasks[0].dateAdded 
+                td= task.dateAdded 
               tr
                 td 
                   b Due Date
-                td= tasks[0].dateDue
+                td= task.dateDue
               tr
                 td 
                   b Flagged?
-                  td= tasks[0].flagged
+                  td= task.flagged
               tr
                 td 
                   b Details
                 td
-                  p= tasks[0].details
+                  p= task.details
       .col-xs-12.col-sm-6
         .panel.panel-primary
             .panel-heading
@@ -44,21 +44,21 @@ block content
                 .row
                   .form-group
                     label Task Name
-                    input.form-control(type='text' value='#{tasks[0].name}')
+                    input.form-control(type='text' value='#{task.name}')
                   .form-group
                     label Flagged?
-                    input.form-control(type='checkbox' checked=tasks[0].flagged)
+                    input.form-control(type='checkbox' checked=task.flagged)
                   .form-group
                     label Date Added
                     p.form-control-static
-                      =tasks[0].dateAdded
+                      =task.dateAdded
                   .form-group
                     label Due Date
-                    input.form-control(type='date' value='#{tasks[0].dateDue}')
+                    input.form-control(type='date' value='#{task.dateDue}')
                   .form-group
                     label Details 
                     textarea.form-control(rows='10')
-                      |#{tasks[0].details}
+                      |#{task.details}
                   button.btn-primary.pull-right
                     .i.glyphicon.glyphicon-check
                     |  Submit

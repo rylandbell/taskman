@@ -25,6 +25,13 @@ block content
                     -if(task.flagged)
                       span.pull-right.glyphicon.glyphicon-fire
                   td
-                    form(action="/details", method="get", role="form")
-                      button.btn-primary.pull-right View/Edit Details
+                    form(action="/details/"+"#{task._id}", method="get", role="form")
+                        button.btn-primary.pull-right View/Edit Details
+              tr
+                form(action="/", method="post", role="form")
+                  td
+                  td 
+                    input(type='text' value='New Task')
+                  td 
+                    button.btn-primary.pull-right Add New Task
           button.btn-primary Mark Checked Tasks as Completed

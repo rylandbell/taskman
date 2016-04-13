@@ -55,7 +55,6 @@ module.exports.tasksReadOne = function (req, res) {
 
 /* POST a new task */
 module.exports.tasksCreate = function (req, res) {
-	console.log(req.body);
 	taskModel.create({
 	  name: req.body.name,
 	  flagged: req.body.flagged,
