@@ -2,10 +2,11 @@ var mongoose = require('mongoose')
 
 //define schema for mongoDB documents
 var taskSchema = new mongoose.Schema({
-	taskName: {type: String, required: true},
+	name: {type: String, required: true},
+	completed: {type: Boolean, "default": false, required: true},
 	flagged: {type: Boolean, "default": false},
-	details: {type: String, required: false},
-	dateAdded: Date,
+	details: {type: String},
+	dateAdded: {type: Date, "default": new Date()},
 	dateDue: Date
 });
 
