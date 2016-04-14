@@ -72,9 +72,30 @@ module.exports.newTask = function(req, res, next) {
   var requestOptions = {
     url: apiOptions.server + path,
     method: "POST",
-    json: {},
+    json: {name: req.body.name},
     qs: {}
   };
-  console.log(req.params);
+  request(requestOptions, function (err, response, body){
+    res.redirect('/');
+  });
+};
+
+// PUT update task info (checkbox only for now)
+module.exports.updateTask = function(req, res, next){
+  var path = '/api/tasks/'+req.params.taskid;
+  var requestOptions = {
+    url: apiOptions.server + path,
+    method: "PUT",
+    json: {completed: true},
+    qs: {}
+  };
+  if (req.body.completed){
+    console.log('checked!!');
+    request(requestOptions, function (err, response, body){
+      res.redirect('/');
+    });
+  } else {
+    res.redirect('/');
+  }
 }
 

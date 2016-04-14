@@ -20,18 +20,20 @@ block content
               each task in tasks
                 tr
                   td
-                    input(type='checkbox')
+                    form(action="/"+"#{task._id}", method="post", role="form")
+                      input(type='checkbox', checked=task.completed, name="completed")
+                      button.btn-primary Go
                   td= task.name
                     -if(task.flagged)
                       span.pull-right.glyphicon.glyphicon-fire
                   td
                     form(action="/details/"+"#{task._id}", method="get", role="form")
                         button.btn-primary.pull-right View/Edit Details
-              tr
-                form(action="/", method="post", role="form")
+              tr.form-row
+                form(action="", method="post", role="form")
                   td
-                  td 
-                    input(type='text' value='New Task')
+                  td
+                    input(type='text' value='New Task' name="name")#newtask
                   td 
                     button.btn-primary.pull-right Add New Task
           button.btn-primary Mark Checked Tasks as Completed
