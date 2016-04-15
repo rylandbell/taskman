@@ -9,10 +9,14 @@ router.get('/', ctrlMain.list);
 router.get('/details/:taskid', ctrlMain.details);
 
 // POST new task (from list view)
-router.post('/', ctrlMain.newTask);
+router.post('/create', ctrlMain.newTask);
 
-// POST update task (POST in browser, PUT in back-end	)
+// POST 
+router.post('/updatecompleted', ctrlMain.updateCompleted);
+
+// POST update task from details form (POST in browser, PUT in back-end)
 router.post('/:taskid', ctrlMain.updateTask);
-// router.post('/checkedupdate', ctrlMain.updateChecks);
+
+
 
 module.exports = router;

@@ -17,21 +17,22 @@ block content
                 th#details
                   .pull-right Details
             tbody
-              each task in tasks
-                tr
-                  td
-                    input(type='checkbox', checked=task.completed, name="completed")
-                  td= task.name
-                    -if(task.flagged)
-                      span.pull-right.glyphicon.glyphicon-fire
-                  td
-                    a(href="/details/"+'#{task._id}')
-                      .pull-right View/Edit Details
+              form#check-form(action="/updatecompleted/", method="post", role="form")
+                each task in tasks
+                  tr
+                    td
+                      input(type='checkbox', checked=task.completed, name="#{task._id}")
+                    td= task.name
+                      -if(task.flagged)
+                        span.pull-right.glyphicon.glyphicon-fire
+                    td
+                      a(href="/details/"+'#{task._id}')
+                        .pull-right View/Edit Details
               tr.form-row
-                form(action="", method="post", role="form")
+                form(action="/create", method="post", role="form")
                   td
                   td
-                    input(type='text' value='New Task' name="name")#newtask
+                    input(type='text' value='New Task' name="name" autocomplete='off')#newtask
                   td 
                     button.btn-primary.pull-right Add New Task
-          button.btn-primary Mark Checked Tasks as Completed
+          button(form="check-form").btn-primary Mark Checked Tasks as Completed

@@ -1,18 +1,3 @@
-// Handles date format conversion to YYYY-MM-DD
-function simplifyDate(date){
-  var year = date.getYear()+1900;
-  var month = date.getMonth()+1;
-  var day = date.getDate();
-  if (month<10){
-  	month='0'+month;
-  }
-  if (day<10){
-  	day='0'+month;
-  }
-  var outputDate = year+'-'+month+'-'+day;
-  return outputDate;
-}
-
 //setting up the request module to use appropriate URLs for API calls (use apiOptions.server variable)
 var request = require('request');
 var apiOptions = {
@@ -96,6 +81,20 @@ module.exports.updateTask = function(req, res, next){
     request(requestOptions, function (err, response, body){
       res.redirect('/details/'+req.params.taskid);
     });
-
 }
 
+// PUT update completed tasks from List View
+module.exports.updateCompleted = function (req, res, next){
+  for(var key in req.body){
+    var path = '/api/tasks/'+key;
+    var requestOptions = {
+      url: apiOptions.server + path,
+      method: "PUT",
+      json: {'completed': true},
+      qs: {}
+    };
+    request(requestOptions, function (err, response, body){
+    });
+  }
+  res.redirect('/');
+};
