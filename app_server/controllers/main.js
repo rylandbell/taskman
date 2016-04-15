@@ -84,7 +84,7 @@ module.exports.newTask = function(req, res, next) {
   });
 };
 
-// PUT update task info (checkbox only for now)
+// PUT update task info 
 module.exports.updateTask = function(req, res, next){
   var path = '/api/tasks/'+req.params.taskid;
   var requestOptions = {
@@ -94,7 +94,7 @@ module.exports.updateTask = function(req, res, next){
     qs: {}
   };
     request(requestOptions, function (err, response, body){
-      res.redirect('/');
+      res.redirect('/details/'+req.params.taskid);
     });
 
 }

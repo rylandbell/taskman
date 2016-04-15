@@ -20,15 +20,13 @@ block content
               each task in tasks
                 tr
                   td
-                    form(action="/"+"#{task._id}", method="post", role="form")
-                      input(type='checkbox', checked=task.completed, name="completed")
-                      button.btn-primary Go
+                    input(type='checkbox', checked=task.completed, name="completed")
                   td= task.name
                     -if(task.flagged)
                       span.pull-right.glyphicon.glyphicon-fire
                   td
-                    form(action="/details/"+"#{task._id}", method="get", role="form")
-                        button.btn-primary.pull-right View/Edit Details
+                    a(href="/details/"+'#{task._id}')
+                      .pull-right View/Edit Details
               tr.form-row
                 form(action="", method="post", role="form")
                   td
