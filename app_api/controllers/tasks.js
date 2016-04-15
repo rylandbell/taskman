@@ -13,7 +13,7 @@ var sendJsonResponse = function (res, status, content){
 /* GET list of tasks (no filtering/limits yet) */
 module.exports.tasksList = function (req, res) {
 	taskModel
-	  .find()
+	  .find({'completed':false})
 	  .exec(function(err, task) {
 	    if (err) {
 	      console.log(err);

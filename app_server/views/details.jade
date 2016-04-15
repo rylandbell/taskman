@@ -40,24 +40,27 @@ block content
               .panel-title 
                 h4 Update Info
             .panel-body
-              form(action="/", method="get", role="form").panel-form
+              form(action="/"+"#{task._id}", method="post", role="form").panel-form
                 .row
                   .form-group
                     label Task Name
-                    input.form-control(type='text' value='#{task.name}')
+                    input.form-control(type='text' value='#{task.name}' name='name')
                   .form-group
                     label Flagged?
-                    input.form-control(type='checkbox' checked=task.flagged)
+                    input.form-control(type='checkbox' checked=task.flagged name='flagged')
+                  .form-group
+                    label Completed?
+                    input.form-control(type='checkbox' checked=task.completed name='completed')
                   .form-group
                     label Date Added
                     p.form-control-static
                       =task.dateAdded
                   .form-group
                     label Due Date
-                    input.form-control(type='date' value='#{task.dateDue}')
+                    input.form-control(type='date' value='#{task.dateDue}' name='dateDue')
                   .form-group
                     label Details 
-                    textarea.form-control(rows='10')
+                    textarea.form-control(rows='10' name='details')
                       |#{task.details}
                   button.btn-primary.pull-right
                     .i.glyphicon.glyphicon-check

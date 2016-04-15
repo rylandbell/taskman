@@ -62,6 +62,10 @@ module.exports.details = function(req, res, next) {
     qs: {}
   };
   request(requestOptions, function (err, response, body){
+    body.dateAdded = body.dateAdded.substring(0,10);
+    if(body.dateDue){
+      body.dateDue = body.dateDue.substring(0,10);
+    }
     renderDetailsView(req,res,body);
   })
 };
@@ -86,16 +90,12 @@ module.exports.updateTask = function(req, res, next){
   var requestOptions = {
     url: apiOptions.server + path,
     method: "PUT",
-    json: {completed: true},
+    json: req.body,
     qs: {}
   };
-  if (req.body.completed){
-    console.log('checked!!');
     request(requestOptions, function (err, response, body){
       res.redirect('/');
     });
-  } else {
-    res.redirect('/');
-  }
+
 }
 
