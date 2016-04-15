@@ -31,6 +31,10 @@ input[type='text'] {
 	border-bottom: 1px solid black;
 }
 
+.finished {
+	text-decoration: line-through;
+}
+
 #newtask {
 	width: 100%;
 }

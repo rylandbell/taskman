@@ -7,13 +7,16 @@ var sendJsonResponse = function (res, status, content){
 	res.json(content);
 }
 
-
 //Response functions for CDUD operations on tasks
 
-/* GET list of tasks (no filtering/limits yet) */
+/* GET list of tasks (optionally filters completed tasks) */
 module.exports.tasksList = function (req, res) {
+	var filter={};
+	if(!req.body.show_completed){
+		filter.completed=false;
+	}
 	taskModel
-	  .find({'completed':false})
+	  .find(filter)
 	  .exec(function(err, task) {
 	    if (err) {
 	      console.log(err);
@@ -95,14 +98,7 @@ module.exports.tasksUpdateOne = function (req, res) {
 	      }
 	      for (key in req.body){
 	      	task[key] = req.body[key];
-	      	// console.log('Key: '+key);
-	      	// console.log('Old value: '+task[key]);
-	      	// console.log('New Value: '+req.body[key]);
-	      }
-	      // task.name = req.body.name;
-	      // task.flagged = req.body.flagged;
-	      // task.details = req.body.details;
-	      // task.dateDue = req.body.dateDue;
+		  }
 	      task.save(function(err, task) {
 	        if (err) {
 	          sendJsonResponse(res, 404, err);
@@ -137,4 +133,18 @@ module.exports.tasksDeleteOne = function (req, res) {
 	}
 };
 
-
+// DELETE all tasks marked completed
+module.exports.tasksDeleteCompleted = function (req, res) {
+	console.log("TRYING TO DELETEEEE FROM APP API");
+	var filter={'completed': true}
+	taskModel
+	  .find(filter)
+	  .remove(function(err) {
+	    if (err) {
+	      console.log(err);
+	      sendJsonResponse(res, 404, err);
+	      return;
+	    }
+	    sendJsonResponse(res, 204, null);
+	  });
+};

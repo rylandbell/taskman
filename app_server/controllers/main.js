@@ -10,23 +10,26 @@ if (process.env.NODE_ENV === 'production') {
 //--------Instructions to handle HTTP calls-------:
 
 /* GET task list page*/
-var renderListView = function (req, res, body){
+var renderListView = function (req, res, body, completedBool){
   res.render('list', {
     title: 'List View',
-    tasks: body
+    tasks: body,
+    show_completed: completedBool
   });
 };
 
 module.exports.list = function(req, res, next) {
   var path = '/api/tasks';
+  var completedBool = Boolean(req.url.substring(2));
   var requestOptions = {
     url: apiOptions.server + path,
     method: "GET",
-    json: {},
+    //this is janky, there's gotta be a better way to pass a boolean:
+    json: {'show_completed': completedBool},
     qs: {}
   };
   request(requestOptions, function (err, response, body){
-    renderListView(req,res,body);
+    renderListView(req,res,body,completedBool);
   })
 };
 	
@@ -85,6 +88,7 @@ module.exports.updateTask = function(req, res, next){
 
 // PUT update completed tasks from List View
 module.exports.updateCompleted = function (req, res, next){
+  console.log(req.body);
   for(var key in req.body){
     var path = '/api/tasks/'+key;
     var requestOptions = {
@@ -97,4 +101,18 @@ module.exports.updateCompleted = function (req, res, next){
     });
   }
   res.redirect('/');
+};
+
+// DELETE completed tasks
+module.exports.deleteCompleted = function (req, res, next){
+  var path = '/api/tasks/';
+  var requestOptions = {
+    url: apiOptions.server + path,
+    method: "DELETE",
+    json: {},
+    qs: {}
+  };
+    request(requestOptions, function (err, response, body){
+      res.redirect('/');
+    });
 };
