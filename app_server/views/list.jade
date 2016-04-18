@@ -36,7 +36,7 @@ block content
                   td
                     input(type='text' value='New Task' name="name" autocomplete='off')#newtask
                   td 
-                    button.btn-primary.pull-right Add New Tasks
+                    button.btn-primary.pull-right Add New Task
           -if(!show_completed)
             form(action="/", method="get", role="form")
               button(name='show_completed', value=1).btn-primary Show Completed Tasks
@@ -48,3 +48,11 @@ block content
               button.btn-danger.pull-right
                 .i.glyphicon.glyphicon-trash
                 | &nbsp;Delete Completed Tasks  
+      -if(message)
+        .container
+          .row
+            .col-xs-4.pagination-centered
+              .alert.alert-warning
+                h4
+                  .glyphicon.glyphicon-exclamation-sign 
+                  |&nbsp;&nbsp;#{message}

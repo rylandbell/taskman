@@ -10,11 +10,21 @@ if (process.env.NODE_ENV === 'production') {
 //--------Instructions to handle HTTP calls-------:
 
 /* GET task list page*/
-var renderListView = function (req, res, body, completedBool){ 
-    res.render('list', {
+var renderListView = function (req, res, responseBody, completedBool){ 
+  var message;
+  if(!(responseBody instanceof Array)){
+    message = "API lookup error";
+    responseBody = [];
+  } else {
+    if (responseBody.length===0) {
+      message = "No tasks found.";
+    }
+  }
+  res.render('list', {
     title: 'List View',
-    tasks: body,
-    show_completed: completedBool
+    tasks: responseBody,
+    show_completed: completedBool,
+    message: message
   });
 };
 
@@ -25,12 +35,18 @@ module.exports.list = function(req, res, next) {
   var requestOptions = {
     url: apiOptions.server + path,
     method: "GET",
-    //sends show_completed to API, which returns more results
-    json: {'show_completed': completedBool},
-    qs: {}
+    json: {},
+    //qs transmits values as a string, so sending the raw 0-or-1-as-string value of show_completed
+    qs: {'show_completed': req.query.show_completed}
   };
   request(requestOptions, function (err, response, body){
-    //sends show_completed to render function, which displays correct buttons (Show vs Hide Completed)
+    if(err){
+      console.log('AN ERROR WAS RETURNED: '+err);
+    } else if (response.statusCode !== 200){
+       console.log ('I GOT AN UNEXPECTED RESPONSE CODE: '+response.statusCode);
+    }
+    //sends show_completed to render function, which displays correct buttons (Show vs Hide Completed):
+    //renderListView has its own error handling, so I call it regardless:
     renderListView(req,res,body,completedBool);
   })
 };

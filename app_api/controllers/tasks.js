@@ -11,10 +11,14 @@ var sendJsonResponse = function (res, status, content){
 
 /* GET list of tasks (optionally filters completed tasks) */
 module.exports.tasksList = function (req, res) {
+  	//query.show_completed is 0 or 1 as a string, so convert to Boolean:
+  	var completedBool = Boolean(parseInt(req.query.show_completed));
+  	//Unless told to show completed tasks, only return items with a completed value of false:
 	var filter={};
-	if(!req.body.show_completed){
+	if(!completedBool){
 		filter.completed=false;
 	}
+	
 	taskModel
 	  .find(filter)
 	  .exec(function(err, task) {
