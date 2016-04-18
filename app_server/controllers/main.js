@@ -7,6 +7,22 @@ if (process.env.NODE_ENV === 'production') {
   apiOptions.server = 'https://immense-dusk-59566.herokuapp.com/';
 }
 
+// generate error message page in browser:
+var _showError = function (req, res, statusCode){
+  var title, content;
+  if (statusCode===404){
+    title= "404, content not found";
+    content= "Wuh-oh, we can't find your page. Maybe try again?";
+  } else {
+    title= statusCode+" error";
+    content= "Something's gone wrong with this request. I wonder what it could be...";
+  }
+  res.render('generic-text', {
+    title: title,
+    content: content
+  })
+}
+
 //--------Instructions to handle HTTP calls-------:
 
 /* GET task list page*/
@@ -53,9 +69,11 @@ module.exports.list = function(req, res, next) {
 	
 /* GET task details */
 var renderDetailsView = function (req, res, body){
-    res.render('details', {
+  var message;
+  res.render('details', {
     title: 'Details View',
-    task: body
+    task: body,
+    message: message
   });
 }
 
@@ -69,11 +87,17 @@ module.exports.details = function(req, res, next) {
   };
   request(requestOptions, function (err, response, body){
     // get YYYY-MM-DD formatted dates from ISO format:
-    body.dateAdded = body.dateAdded.substring(0,10);
-    if(body.dateDue){
-      body.dateDue = body.dateDue.substring(0,10);
+    if(response.statusCode===200){
+      if(body.dateAdded){
+        body.dateAdded = body.dateAdded.substring(0,10);
+      }
+      if(body.dateDue){
+        body.dateDue = body.dateDue.substring(0,10);
+      }
+      renderDetailsView(req,res,body);
+    } else {
+      _showError(req, res, response.statusCode);
     }
-    renderDetailsView(req,res,body);
   })
 };
 

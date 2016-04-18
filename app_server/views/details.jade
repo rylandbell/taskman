@@ -4,6 +4,14 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  -if(message)
+        .container
+          .row
+            .col-xs-4.pagination-centered
+              .alert.alert-warning
+                h4
+                  .glyphicon.glyphicon-exclamation-sign 
+                  |&nbsp;&nbsp;#{message}
   .container
     .row
       .col-xs-12.col-sm-6
