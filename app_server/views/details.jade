@@ -17,12 +17,14 @@ block content
                   .form-group
                     label Task Name
                     input.form-control(type='text' value='#{task.name}' name='name')
-                  .form-group
-                    label Flagged?
-                    input.form-control(type='checkbox' checked=task.flagged name='flagged')
-                  .form-group
-                    label Completed?
-                    input.form-control(type='checkbox' checked=task.completed name='completed')
+                  .container
+                    .row
+                      .form-group.col-xs-2
+                        label Flagged?
+                        input.form-control(type='checkbox' checked=task.flagged name='flagged')
+                      .form-group.col-xs-4
+                        label Completed?
+                        input.form-control(type='checkbox' checked=task.completed name='completed')
                   .form-group
                     label Date Added
                     p.form-control-static

@@ -17,32 +17,34 @@ block content
                 th#details
                   .pull-right Details
             tbody
-              form#check-form(action="/updatecompleted/", method="post", role="form")
-                each task in tasks
-                  -var contextualClass=''
-                  -if(task.completed){contextualClass='finished'}
-                  tr(class=contextualClass)
-                    td
-                      input(type='checkbox', checked=task.completed, name="#{task._id}").completed-box
-                    td= task.name
-                      -if(task.flagged)
-                        span.pull-right.glyphicon.glyphicon-fire
-                    td
-                      a(href="/details/"+'#{task._id}')
-                        .pull-right View/Edit Details
+              each task in tasks
+                -var contextualClass=''
+                -if(task.completed){contextualClass='finished'}
+                tr(class=contextualClass)
+                  td
+                    form(action="/updatecompleted/", method="post", role="form")
+                      input(type='checkbox', checked=task.completed, name='box_name' value="#{task._id}").completed-box
+                  td= task.name
+                    -if(task.flagged)
+                      span.pull-right.glyphicon.glyphicon-fire
+                  td
+                    a(href="/details/"+'#{task._id}')
+                      .pull-right View/Edit Details
               tr.form-row
                 form(action="/create", method="post", role="form")
                   td
                   td
                     input(type='text' value='New Task' name="name" autocomplete='off')#newtask
                   td 
-                    button.btn-primary.pull-right Add New Task
-          button(form="check-form").btn-primary Mark Checked Tasks as Completed
+                    button.btn-primary.pull-right Add New Tasks
           -if(!show_completed)
-            form(action="show-completed", method="get", role="form")
-              button.btn-primary Show Completed Tasks
+            form(action="/", method="get", role="form")
+              button(name='show_completed', value=1).btn-primary Show Completed Tasks
           -else
             form(action="/", method="get", role="form")
-              button.btn-primary Hide Completed Tasks
+              button(name='show_completed', value=0).btn-primary Hide Completed Tasks
+            | <br />
             form(action="/deletecompleted", method="post", role="form")
-              button.btn-primary Delete Completed Tasks  
+              button.btn-danger.pull-right
+                .i.glyphicon.glyphicon-trash
+                | &nbsp;Delete Completed Tasks  

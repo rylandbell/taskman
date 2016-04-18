@@ -10,8 +10,8 @@ if (process.env.NODE_ENV === 'production') {
 //--------Instructions to handle HTTP calls-------:
 
 /* GET task list page*/
-var renderListView = function (req, res, body, completedBool){
-  res.render('list', {
+var renderListView = function (req, res, body, completedBool){ 
+    res.render('list', {
     title: 'List View',
     tasks: body,
     show_completed: completedBool
@@ -20,15 +20,17 @@ var renderListView = function (req, res, body, completedBool){
 
 module.exports.list = function(req, res, next) {
   var path = '/api/tasks';
-  var completedBool = Boolean(req.url.substring(2));
+  //get show_completed value from form, transform to Boolean
+  var completedBool = Boolean(parseInt(req.query.show_completed));
   var requestOptions = {
     url: apiOptions.server + path,
     method: "GET",
-    //this is janky, there's gotta be a better way to pass a boolean:
+    //sends show_completed to API, which returns more results
     json: {'show_completed': completedBool},
     qs: {}
   };
   request(requestOptions, function (err, response, body){
+    //sends show_completed to render function, which displays correct buttons (Show vs Hide Completed)
     renderListView(req,res,body,completedBool);
   })
 };
@@ -50,6 +52,7 @@ module.exports.details = function(req, res, next) {
     qs: {}
   };
   request(requestOptions, function (err, response, body){
+    // get YYYY-MM-DD formatted dates from ISO format:
     body.dateAdded = body.dateAdded.substring(0,10);
     if(body.dateDue){
       body.dateDue = body.dateDue.substring(0,10);
@@ -72,7 +75,7 @@ module.exports.newTask = function(req, res, next) {
   });
 };
 
-// PUT update task info 
+// POST call to update task info from Details View (PUT in API)
 module.exports.updateTask = function(req, res, next){
   var path = '/api/tasks/'+req.params.taskid;
   var requestOptions = {
@@ -86,24 +89,22 @@ module.exports.updateTask = function(req, res, next){
     });
 }
 
-// PUT update completed tasks from List View
+// POST call to mark a task completed from List View (PUT in API)
 module.exports.updateCompleted = function (req, res, next){
-  console.log(req.body);
-  for(var key in req.body){
-    var path = '/api/tasks/'+key;
-    var requestOptions = {
-      url: apiOptions.server + path,
-      method: "PUT",
-      json: {'completed': true},
-      qs: {}
-    };
-    request(requestOptions, function (err, response, body){
-    });
-  }
-  res.redirect('/');
+  var taskId = req.body.box_name;
+  var path = '/api/tasks/'+taskId;
+  var requestOptions = {
+    url: apiOptions.server + path,
+    method: "PUT",
+    json: {'completed': true},
+    qs: {}
+  };
+  request(requestOptions, function (err, response, body){
+    res.redirect('/');
+  });
 };
 
-// DELETE completed tasks
+// POST call to DELETE all completed tasks
 module.exports.deleteCompleted = function (req, res, next){
   var path = '/api/tasks/';
   var requestOptions = {
@@ -113,6 +114,7 @@ module.exports.deleteCompleted = function (req, res, next){
     qs: {}
   };
     request(requestOptions, function (err, response, body){
+      //Re-load list view:
       res.redirect('/');
     });
 };

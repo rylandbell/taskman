@@ -23,7 +23,6 @@ module.exports.tasksList = function (req, res) {
 	      sendJsonResponse(res, 404, err);
 	      return;
 	    }
-	    console.log(task);
 	    sendJsonResponse(res, 200, task);
 	  });
 };
@@ -135,7 +134,6 @@ module.exports.tasksDeleteOne = function (req, res) {
 
 // DELETE all tasks marked completed
 module.exports.tasksDeleteCompleted = function (req, res) {
-	console.log("TRYING TO DELETEEEE FROM APP API");
 	var filter={'completed': true}
 	taskModel
 	  .find(filter)
