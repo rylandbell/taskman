@@ -1,4 +1,4 @@
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
 
 //define schema for mongoDB documents
 var taskSchema = new mongoose.Schema({

@@ -31,7 +31,7 @@ block content
                     a(href="/details/"+'#{task._id}')
                       .pull-right View/Edit Details
               tr.form-row
-                form(action="/create", method="post", role="form")
+                form(action="/create", method="post", role="form").checkforname
                   td
                   td
                     input(type='text' value='New Task' name="name" autocomplete='off')#newtask

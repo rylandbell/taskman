@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'production') {
   apiOptions.server = 'https://immense-dusk-59566.herokuapp.com/';
 }
 
-// generate error message page in browser:
+// generate error page in browser:
 var _showError = function (req, res, statusCode){
   var title, content;
   if (statusCode===404){
@@ -40,7 +40,8 @@ var renderListView = function (req, res, responseBody, completedBool){
     title: 'List View',
     tasks: responseBody,
     show_completed: completedBool,
-    message: message
+    message: message,
+    error: req.query.err
   });
 };
 
@@ -68,7 +69,8 @@ var renderDetailsView = function (req, res, body){
   res.render('details', {
     title: 'Details View',
     task: body,
-    message: message
+    message: message,
+    error: req.query.err
   });
 }
 
@@ -105,13 +107,19 @@ module.exports.newTask = function(req, res, next) {
     json: {name: req.body.name},
     qs: {}
   };
-  request(requestOptions, function (err, response, body){
-    if(response.statusCode===201){
-      res.redirect('/');
-    } else {
-      _showError(req, res, response.statusCode);
-    }
-  });
+  if(!req.body.name){
+    res.redirect('/?err=validation');
+  } else {
+    request(requestOptions, function (err, response, body){
+      if(response.statusCode===400){
+        res.redirect('/?err=validation');
+      } else if(response.statusCode===201){
+        res.redirect('/');
+      } else {
+        _showError(req, res, response.statusCode);
+      }
+    });
+  }
 };
 
 // POST call to update task info from Details View (PUT in API)
@@ -123,13 +131,19 @@ module.exports.updateTask = function(req, res, next){
     json: req.body,
     qs: {}
   };
+  if(!req.body.name){
+    res.redirect('/details/'+req.params.taskid+'?err=validation');
+  } else {
     request(requestOptions, function (err, response, body){
-      if(response.statusCode===200){
+      if(response.statusCode===400 && body.name==='ValidationError'){
+        res.redirect('/details/'+req.params.taskid+'?err=validation');
+      } else if(response.statusCode===200){
         res.redirect('/details/'+req.params.taskid);
       } else {
         _showError(req, res, response.statusCode);
       }
     });
+  }
 }
 
 // POST call to mark a task completed from List View (PUT in API)

@@ -18,7 +18,7 @@ module.exports.tasksList = function (req, res) {
 	if(!completedBool){
 		filter.completed=false;
 	}
-	
+
 	taskModel
 	  .find(filter)
 	  .exec(function(err, task) {
@@ -104,7 +104,7 @@ module.exports.tasksUpdateOne = function (req, res) {
 		  }
 	      task.save(function(err, task) {
 	        if (err) {
-	          sendJsonResponse(res, 404, err);
+	          sendJsonResponse(res, 400, err);
 	        } else {
 	          sendJsonResponse(res, 200, task);
 	        }
