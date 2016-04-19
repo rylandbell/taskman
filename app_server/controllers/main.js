@@ -114,7 +114,10 @@ module.exports.newTask = function(req, res, next) {
       if(response.statusCode===400){
         res.redirect('/?err=validation');
       } else if(response.statusCode===201){
-        res.redirect('/');
+        //use this for Ajax calls:
+        res.send(response);
+        //use this to reload page with new task added:
+        //res.redirect('/');
       } else {
         _showError(req, res, response.statusCode);
       }
