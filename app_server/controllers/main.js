@@ -56,11 +56,6 @@ module.exports.list = function(req, res, next) {
     qs: {'show_completed': req.query.show_completed}
   };
   request(requestOptions, function (err, response, body){
-    if(err){
-      console.log('AN ERROR WAS RETURNED: '+err);
-    } else if (response.statusCode !== 200){
-       console.log ('I GOT AN UNEXPECTED RESPONSE CODE: '+response.statusCode);
-    }
     //sends show_completed to render function, which displays correct buttons (Show vs Hide Completed):
     //renderListView has its own error handling, so I call it regardless:
     renderListView(req,res,body,completedBool);
@@ -101,7 +96,7 @@ module.exports.details = function(req, res, next) {
   })
 };
 
-// POST new task from list view format
+// POST new task from list view 
 module.exports.newTask = function(req, res, next) {
   var path = '/api/tasks';
   var requestOptions = {
@@ -111,7 +106,11 @@ module.exports.newTask = function(req, res, next) {
     qs: {}
   };
   request(requestOptions, function (err, response, body){
-    res.redirect('/');
+    if(response.statusCode===201){
+      res.redirect('/');
+    } else {
+      _showError(req, res, response.statusCode);
+    }
   });
 };
 
@@ -125,7 +124,11 @@ module.exports.updateTask = function(req, res, next){
     qs: {}
   };
     request(requestOptions, function (err, response, body){
-      res.redirect('/details/'+req.params.taskid);
+      if(response.statusCode===200){
+        res.redirect('/details/'+req.params.taskid);
+      } else {
+        _showError(req, res, response.statusCode);
+      }
     });
 }
 
@@ -140,7 +143,11 @@ module.exports.updateCompleted = function (req, res, next){
     qs: {}
   };
   request(requestOptions, function (err, response, body){
-    res.redirect('/');
+    if(response.statusCode===200){
+      res.redirect('/');
+    } else {
+      _showError(req, res, response.statusCode);
+    }
   });
 };
 
@@ -154,7 +161,10 @@ module.exports.deleteCompleted = function (req, res, next){
     qs: {}
   };
     request(requestOptions, function (err, response, body){
-      //Re-load list view:
-      res.redirect('/');
+      if(response.statusCode===204){
+        res.redirect('/');
+      } else {
+        _showError(req, res, response.statusCode);
+      }
     });
 };
