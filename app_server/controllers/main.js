@@ -4,7 +4,7 @@ var apiOptions = {
   server: 'http://localhost:3000'
 };
 if (process.env.NODE_ENV === 'production') {
-  apiOptions.server = 'https://immense-dusk-59566.herokuapp.com/';
+  apiOptions.server = 'https://immense-dusk-59566.herokuapp.com';
 }
 
 // generate error page in browser:
@@ -27,6 +27,7 @@ var _showError = function (req, res, statusCode){
 
 /* GET task list page*/
 var renderListView = function (req, res, responseBody, completedBool){ 
+  console.log(responseBody);
   var message;
   if(!(responseBody instanceof Array)){
     message = "API lookup error";
