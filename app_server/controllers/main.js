@@ -186,3 +186,8 @@ module.exports.deleteCompleted = function (req, res, next){
       }
     });
 };
+
+// for testing Google calendar API:
+module.exports.google = function (req, res){
+  res.render('google',{});
+}

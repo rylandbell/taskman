@@ -6,8 +6,6 @@ if (process.env.NODE_ENV === 'production') {
     dbURI = 'mongodb://ryland:scarybbq1@ds015892.mlab.com:15892/heroku_jpkc5kc9';
 }
 
-console.log('USING THIS VALUE FOR DBURI: '+dbURI)
-
 mongoose.connect(dbURI);
 
 // CONNECTION EVENTS
