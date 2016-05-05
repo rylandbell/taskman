@@ -57,5 +57,9 @@ app.use(function(err, req, res, next) {
   });
 });
 
+//output pretty HTML:
+if (app.get('env') === 'development') {
+  app.locals.pretty = true;
+}
 
 module.exports = app;
