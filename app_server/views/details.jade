@@ -15,6 +15,9 @@ block content
   .container
     .row
       .col-xs-12.col-sm-6
+        .btn.btn-primary#cal-init Send to Google Calendar
+        br
+        br
         .panel.panel-primary
             .panel-heading
               .panel-title 
@@ -49,4 +52,63 @@ block content
                       |#{task.details}
                   button.btn-primary.pull-right
                     .i.glyphicon.glyphicon-check
-                    |  Submit
+                    |  Submit Changes
+      
+      .col-xs-12.col-sm-6
+        .panel.panel-primary#cal-panel
+            .panel-heading
+              .panel-title 
+                h4 Add to Google Calendar
+            .panel-body
+                form(action="", method="post", role="form")#calendar-form
+                  .form-group
+                    label Event Name
+                    input.form-control(type='text' value='#{task.name}' name='name')
+                  .form-group
+                    label Date
+                    -if (task.dateDue)
+                      input.form-control(type='date' value='#{task.dateDue}' name='dateDue')
+                    -else
+                      input.form-control(type='date' name='dateDue')
+                  .form-group
+                    label Duration
+                    select.form-control
+                      option 0:15
+                      option(selected='selected') 0:30
+                      option 0:45
+                      option 1:00
+                      option 1:30
+                      option 2:00
+                      option 3:00
+                  .form-group
+                    label Remove from TaskMan after sending to calendar?
+                    input.form-control(type='checkbox' checked='checked')
+                  button.btn.btn-primary#send-btn
+                    | Submit
+        .panel.panel-primary#auth-panel
+            .panel-heading
+              .panel-title 
+                h4 Google Authentication
+            .panel-body
+              p We can only add events to your Google calendar with your permission. The button below will pop up an authentication window for your Google account.
+              button.btn.btn-primary Go to Google Permissions
+
+
+
+        
+
+
+          //- h1 Testin:
+          //- #authorize-div(style='display: none')
+          //-   span Authorize access to Google Calendar API
+          //-   // Button for the user to click to initiate auth sequence
+          //-   button#authorize-button(onclick='handleAuthClick(event)')
+          //-     | Authorize
+          //- pre#output.
+
+
+
+
+block scripts
+  script(src='/javascripts/calendar.js')  
+  script(src='https://apis.google.com/js/client.js?onload=checkAuth')

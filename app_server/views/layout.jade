@@ -19,50 +19,6 @@ html
         // Collect the nav links, forms, and other content for toggling
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav
-            //- li
-            //-   a(href='/')
-            //-     | List View
-            //-     span.sr-only (current)
-            //- li
-            //-   a(href='/details') Details View
-          //-   li.dropdown
-          //-     a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
-          //-       | Dropdown 
-          //-       span.caret
-          //-     ul.dropdown-menu
-          //-       li
-          //-         a(href='#') Action
-          //-       li
-          //-         a(href='#') Another action
-          //-       li
-          //-         a(href='#') Something else here
-          //-       li.divider(role='separator')
-          //-       li
-          //-         a(href='#') Separated link
-          //-       li.divider(role='separator')
-          //-       li
-          //-         a(href='#') One more separated link
-          //- form.navbar-form.navbar-left(role='search')
-          //-   .form-group
-          //-     input.form-control(type='text', placeholder='Search')
-          //-   button.btn.btn-default(type='submit') Submit
-          //- ul.nav.navbar-nav.navbar-right
-          //-   li
-          //-     a(href='#') Link
-          //-   li.dropdown
-          //-     a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
-          //-       | Dropdown 
-          //-       span.caret
-          //-     ul.dropdown-menu
-          //-       li
-          //-         a(href='#') Action
-          //-       li
-          //-         a(href='#') Another action
-          //-       li
-          //-         a(href='#') Something else here
-          //-       li.divider(role='separator')
-          //-       li
-          //-         a(href='#') Separated link
     .container
       -if(error==='validation')
         .alert.alert-danger 
@@ -75,8 +31,9 @@ html
             .pull-right 
               small &copy; RPB 2016
 
-
+    
     script(src='/javascripts/jquery-1.11.1.min.js')
     script(src='/bootstrap/js/bootstrap.min.js')
     script(src='/javascripts/validation.js')
     script(src='/javascripts/ajax.js')
+    block scripts

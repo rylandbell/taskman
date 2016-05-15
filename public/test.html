@@ -5,7 +5,7 @@
       // Developer Console, https://console.developers.google.com
       var CLIENT_ID = '634607653489-3duvkicl6nstmfktt3v0f1ecqbi34e54.apps.googleusercontent.com';
 
-      var SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"];
+      var SCOPES = ["https://www.googleapis.com/auth/calendar"];
 
       /**
        * Check if current user has authorized this application.
@@ -54,7 +54,7 @@
        * once client library is loaded.
        */
       function loadCalendarApi() {
-        gapi.client.load('calendar', 'v3', listUpcomingEvents);
+        gapi.client.load('calendar', 'v3', addEvent);
       }
 
       /**
@@ -62,6 +62,17 @@
        * the authorized user's calendar. If no events are found an
        * appropriate message is printed.
        */
+
+       function getCalId() {
+        var request = gapi.client.calendar.calendarList.list();
+
+        request.execute(function(resp){
+          console.log(resp);
+        });
+       }
+
+
+
       function listUpcomingEvents() {
         var request = gapi.client.calendar.events.list({
           'calendarId': 'primary',
@@ -103,6 +114,34 @@
         var textContent = document.createTextNode(message + '\n');
         pre.appendChild(textContent);
       }
+
+      function addEvent(){
+        var event = {
+          'summary': 'Google I/O 2015',
+          'location': '800 Howard St., San Francisco, CA 94103',
+          'description': 'A chance to hear more about Google\'s developer products.',
+          'start': {
+            'dateTime': '2016-05-28T09:00:00-07:00',
+            'timeZone': 'America/Los_Angeles'
+          },
+          'end': {
+            'dateTime': '2016-05-28T17:00:00-07:00',
+            'timeZone': 'America/Los_Angeles'
+          }
+        };
+
+        var request = gapi.client.calendar.events.insert({
+          'calendarId': 'primary',
+          'resource': event
+        });
+
+        request.execute(function(event) {
+          appendPre('Event created: ' + event.htmlLink);
+        });
+      };
+
+
+
 
     </script>
     <script src="https://apis.google.com/js/client.js?onload=checkAuth">

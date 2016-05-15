@@ -38,3 +38,11 @@ input[type='text'] {
 #newtask {
 	width: 100%;
 }
+
+#cal-panel {
+	display: none;
+}
+
+#auth-panel {
+	display: none;
+}
