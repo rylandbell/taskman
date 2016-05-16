@@ -67,19 +67,19 @@ block content
                   .form-group
                     label Date
                     -if (task.dateDue)
-                      input.form-control(type='date' value='#{task.dateDue}' name='dateDue')
+                      input.form-control(type='date' value='#{task.dateDue}' name='date')
                     -else
-                      input.form-control(type='date' name='dateDue')
+                      input.form-control(type='date' name='date')
                   .form-group
                     label Duration
-                    select.form-control
-                      option 0:15
-                      option(selected='selected') 0:30
-                      option 0:45
-                      option 1:00
-                      option 1:30
-                      option 2:00
-                      option 3:00
+                    select.form-control(name='duration')
+                      option(value=15) 0:15
+                      option(selected='selected' value=30) 0:30
+                      option(value=45) 0:45
+                      option(value=60) 1:00
+                      option(value=90) 1:30
+                      option(value=120) 2:00
+                      option(value=180) 3:00
                   .form-group
                     label Remove from TaskMan after sending to calendar?
                     input.form-control(type='checkbox' checked='checked')
