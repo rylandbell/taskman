@@ -93,7 +93,7 @@ $('document').ready(function(){
 
   //check authorization when user initiates calendar add process
   $('#cal-init').on('click',function(){
-    goog.checkAuth(true);
+    goog.checkAuth(false);
   });
 
   //send data to google calendar when user submits calendar form
