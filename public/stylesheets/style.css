@@ -24,6 +24,8 @@ input[type='text'] {
 
 .glyphicon-fire {
 	color: darkred;
+	position: absolute;
+	top: 200px;
 }
 
 .form-row {
@@ -39,10 +41,12 @@ input[type='text'] {
 	width: 100%;
 }
 
-#cal-panel {
-	display: none;
+#cal-popup {
+	height: 400px;
+	width: 600px;
+	background-color: green;
 }
 
-#auth-panel {
+.auth-view, .add-view, .success-view, .fail-view {
 	display: none;
 }

@@ -2,8 +2,6 @@ include _includes/helper_functions.jade
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
   -if(message)
         .container
           .row
@@ -15,7 +13,7 @@ block content
   .container
     .row
       .col-xs-12.col-sm-6
-        .btn.btn-primary#cal-init Send to Google Calendar
+        //- .btn.btn-primary#cal-init Send to Google Calendar
         br
         br
         .panel.panel-primary
@@ -35,7 +33,7 @@ block content
                         input.form-control(type='checkbox' checked=task.flagged name='flagged')
                       .form-group.col-xs-4
                         label Completed?
-                        input.form-control(type='checkbox' checked=task.completed name='completed')
+                        input.form-control#completed(type='checkbox' checked=task.completed name='completed')
                   .form-group
                     label Date Added
                     p.form-control-static
@@ -50,48 +48,59 @@ block content
                     label Details 
                     textarea.form-control(rows='10' name='details')
                       |#{task.details}
-                  button.btn-primary.pull-right
+                  button.btn.btn-primary.pull-right
                     .i.glyphicon.glyphicon-check
                     |  Submit Changes
-      
+                  // Button trigger modal
+                  button.btn.btn-primary.btn(type='button', data-toggle='modal', data-target='#myModal')#cal-init
+                    | Send to Google Calendar
       .col-xs-12.col-sm-6
-        .panel.panel-primary#cal-panel
-            .panel-heading
-              .panel-title 
-                h4 Add to Google Calendar
-            .panel-body
-                form(action="", method="post", role="form")#calendar-form
-                  .form-group
-                    label Event Name
-                    input.form-control(type='text' value='#{task.name}' name='name')
-                  .form-group
-                    label Date
-                    -if (task.dateDue)
-                      input.form-control(type='date' value='#{task.dateDue}' name='date')
-                    -else
-                      input.form-control(type='date' name='date')
-                  .form-group
-                    label Duration
-                    select.form-control(name='duration')
-                      option(value=15) 0:15
-                      option(selected='selected' value=30) 0:30
-                      option(value=45) 0:45
-                      option(value=60) 1:00
-                      option(value=90) 1:30
-                      option(value=120) 2:00
-                      option(value=180) 3:00
-                  .form-group
-                    label Remove from TaskMan after sending to calendar?
-                    input.form-control(type='checkbox' checked='checked')
-                  button.btn.btn-primary#send-btn
-                    | Submit
-        .panel.panel-primary#auth-panel
-            .panel-heading
-              .panel-title 
-                h4 Google Authentication
-            .panel-body
-              p We can only add events to your Google calendar with your permission. The button below will pop up an authentication window for your Google account.
-              button.btn.btn-primary Go to Google Permissions
+
+
+  // Modal
+  #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') ×
+          h4.modal-title.add-view Send to Google Calendar
+          h4.modal-title.auth-view Google Authentication
+          h4.modal-title.success-view Success!
+        .modal-body
+          #cal-panel.add-view
+            form(action="", method="post", role="form")#calendar-form
+              .form-group
+                label Event Name
+                input.form-control(type='text' value='#{task.name}' name='name')
+              .form-group
+                label Date
+                -if (task.dateDue)
+                  input.form-control(type='date' value='#{task.dateDue}' name='date')
+                -else
+                  input.form-control(type='date' name='date')
+              .form-group
+                label Duration
+                select.form-control(name='duration')
+                  option(value=15) 0:15
+                  option(selected='selected' value=30) 0:30
+                  option(value=45) 0:45
+                  option(value=60) 1:00
+                  option(value=90) 1:30
+                  option(value=120) 2:00
+                  option(value=180) 3:00
+          #auth-panel.auth-view
+            p We can only add events to your Google calendar with your permission. The button below will pop up an authentication window for your Google account.
+          .success-view Your event has been successfully added.&nbsp;
+            p
+              a(target='_blank')#event-link You can view your event here. 
+            p Would you like to mark this task completed in TaskMan and return to list view?
+
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+          button.btn.btn-primary(type='button')#auth-init.auth-view Go to Google Permissions
+          button.btn.btn-primary(type='button')#send-btn.add-view Add Event
+          button.btn.btn-primary(type='button')#mark-completed.success-view Mark Task Completed
 
 block scripts
   script(src='/javascripts/calendar.js')  

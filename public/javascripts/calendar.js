@@ -1,4 +1,3 @@
-// All DOM manipulation and event listeners go here:
 $('document').ready(function(){
   var goog = talkToGoogleApi();
   //All communication with Google servers should be in this module:
@@ -38,14 +37,17 @@ $('document').ready(function(){
     };
 
     //Add event to calendar
-    exports.addEvent = function(event){
+    exports.addEvent = function(event,successCallback,failureCallback){
       var request = gapi.client.calendar.events.insert({
         'calendarId': 'primary',
         'resource': event
       });
-      request.execute(function(event) {
-        console.log('holla back? '+event.htmlLink);
-        // appendPre('Event created: ' + event.htmlLink);
+      request.execute(function(e) {
+        if(e && e.status==='confirmed'){
+          successCallback(e);
+        } else {
+          failureCallback(e);
+        }
       });
     };
     return exports;
@@ -53,14 +55,12 @@ $('document').ready(function(){
 
   //Show appropriate UI elements, depending on authorized status
   function updateAuthDisplay(authorized){
-    var authorizePanel = document.getElementById('auth-panel');
-    var calPanel = document.getElementById('cal-panel');
     if (authorized) {
-      authorizePanel.style.display = 'none';
-      calPanel.style.display = 'block';
+      $('.auth-view').hide();
+      $('.add-view').show();
     } else {
-      authorizePanel.style.display = 'block';
-      calPanel.style.display = 'none';
+      $('.auth-view').show();
+      $('.add-view').hide();
     }
   }
 
@@ -91,8 +91,25 @@ $('document').ready(function(){
     return newEvent;
   }
 
+  function successfulAdd(e){
+    console.log('holla back? '+e.htmlLink);
+    console.log(e);
+    $('.add-view').hide();
+    $('.success-view').show();
+    $('#event-link').attr('href',e.htmlLink);
+  }
+
+  function failedAdd(e){
+    console.log('failure?');
+    console.log(e);
+  }
+
   //check authorization when user initiates calendar add process
   $('#cal-init').on('click',function(){
+    goog.checkAuth(true);
+  });
+
+  $('#auth-init').on('click',function(){
     goog.checkAuth(false);
   });
 
@@ -100,8 +117,13 @@ $('document').ready(function(){
   $('#send-btn').on('click',function(e){
     e.preventDefault();   
     var myEvent = prepEventObject();
-    goog.addEvent(myEvent);
+    goog.addEvent(myEvent, successfulAdd, failedAdd);
   });
+
+  //mark task completed at user request
+  $('#mark-completed').on('click',function(){
+    $('#completed').prop('checked',true);
+  })
 });
 
 
