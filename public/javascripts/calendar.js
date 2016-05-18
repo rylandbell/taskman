@@ -92,8 +92,6 @@ $('document').ready(function(){
   }
 
   function successfulAdd(e){
-    console.log('holla back? '+e.htmlLink);
-    console.log(e);
     $('.add-view').hide();
     $('.success-view').show();
     $('#event-link').attr('href',e.htmlLink);
@@ -123,6 +121,8 @@ $('document').ready(function(){
   //mark task completed at user request
   $('#mark-completed').on('click',function(){
     $('#completed').prop('checked',true);
+    $('#gotolist').prop('checked',true);
+    $('#update-form').submit();
   })
 });
 

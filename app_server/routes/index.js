@@ -21,7 +21,4 @@ router.post('/deletecompleted/', ctrlMain.deleteCompleted);
 // POST update task from details form (POST in browser, PUT in back-end)
 router.post('/:taskid', ctrlMain.updateTask);
 
-router.get('/google', ctrlMain.google);
-
-
 module.exports = router;

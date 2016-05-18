@@ -13,47 +13,47 @@ block content
   .container
     .row
       .col-xs-12.col-sm-6
-        //- .btn.btn-primary#cal-init Send to Google Calendar
         br
         br
         .panel.panel-primary
-            .panel-heading
-              .panel-title 
-                h4 Update Info
-            .panel-body
-              form(action="/"+"#{task._id}", method="post", role="form").panel-form.checkforname
-                .row
-                  .form-group
-                    label Task Name
-                    input.form-control(type='text' value='#{task.name}' name='name')
-                  .container
-                    .row
-                      .form-group.col-xs-2
-                        label Flagged?
-                        input.form-control(type='checkbox' checked=task.flagged name='flagged')
-                      .form-group.col-xs-4
-                        label Completed?
-                        input.form-control#completed(type='checkbox' checked=task.completed name='completed')
-                  .form-group
-                    label Date Added
-                    p.form-control-static
-                      =task.dateAdded
-                  .form-group
-                    label Due Date
-                    -if (task.dateDue)
-                      input.form-control(type='date' value='#{task.dateDue}' name='dateDue')
-                    -else
-                      input.form-control(type='date' name='dateDue')
-                  .form-group
-                    label Details 
-                    textarea.form-control(rows='10' name='details')
-                      |#{task.details}
-                  button.btn.btn-primary.pull-right
-                    .i.glyphicon.glyphicon-check
-                    |  Submit Changes
-                  // Button trigger modal
-                  button.btn.btn-primary.btn(type='button', data-toggle='modal', data-target='#myModal')#cal-init
-                    | Send to Google Calendar
+          .panel-heading
+            .panel-title 
+              h4 Update Info
+          .panel-body
+            form(action="/"+"#{task._id}", method="post", role="form").panel-form.checkforname#update-form
+              input(type='checkbox' name='gotolist' style='display: none')#gotolist
+              .row
+                .form-group
+                  label Task Name
+                  input.form-control(type='text' value='#{task.name}' name='name')
+                .container
+                  .row
+                    .form-group.col-xs-2
+                      label Flagged?
+                      input.form-control(type='checkbox' checked=task.flagged name='flagged')
+                    .form-group.col-xs-4
+                      label Completed?
+                      input.form-control#completed(type='checkbox' checked=task.completed name='completed')
+                .form-group
+                  label Date Added
+                  p.form-control-static
+                    =task.dateAdded
+                .form-group
+                  label Due Date
+                  -if (task.dateDue)
+                    input.form-control(type='date' value='#{task.dateDue}' name='dateDue')
+                  -else
+                    input.form-control(type='date' name='dateDue')
+                .form-group
+                  label Details 
+                  textarea.form-control(rows='10' name='details')
+                    |#{task.details}
+                button.btn.btn-primary.pull-right
+                  .i.glyphicon.glyphicon-check
+                  |  Submit Changes
+                // Button trigger modal
+                button.btn.btn-primary.btn(type='button', data-toggle='modal', data-target='#myModal')#cal-init
+                  | Send to Google Calendar
       .col-xs-12.col-sm-6
 
 
@@ -93,14 +93,16 @@ block content
             p We can only add events to your Google calendar with your permission. The button below will pop up an authentication window for your Google account.
           .success-view Your event has been successfully added.&nbsp;
             p
-              a(target='_blank')#event-link You can view your event here. 
+              //- a(target='_blank')#event-link You can view your event here. 
             p Would you like to mark this task completed in TaskMan and return to list view?
 
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') Close
           button.btn.btn-primary(type='button')#auth-init.auth-view Go to Google Permissions
           button.btn.btn-primary(type='button')#send-btn.add-view Add Event
-          button.btn.btn-primary(type='button')#mark-completed.success-view Mark Task Completed
+          button.btn.btn-primary(type='button')#mark-completed.success-view Mark Completed
+          a(target='_blank')#event-link
+            button.btn.btn-primary(type='button').success-view View Event on Calendar
 
 block scripts
   script(src='/javascripts/calendar.js')  

@@ -1,10 +1,6 @@
 var $completed=$('.completed-box');
 var $newtaskform = $('#newtaskform');
-var newRowHtml1 = '<tr id="'
-var newRowHtml2 = '"><td><form action="/updatecompleted/" method="post" role="form"><input type="checkbox" name="box_name" value="'
-var newRowHtml3 = '" class="completed-box"></form></td><td>'
-var newRowHtml4 = '</td><td><a href="/details/'
-var newRowHtml5 = '"><div class="pull-right">View/Edit Details</div></a></td></tr>'
+
 
 //Selecting .completed-box this way allows the listener to 'hear' clicks from dynamically added elements
 $('table').on('click','.completed-box',function(){
@@ -35,6 +31,11 @@ var markComplete = function (taskId){
 };
 
 var addNew = function (taskName){
+	var newRowHtml1 = '<tr id="'
+	var newRowHtml2 = '"><td><form action="/updatecompleted/" method="post" role="form"><input type="checkbox" name="box_name" value="'
+	var newRowHtml3 = '" class="completed-box"></form></td><td>'
+	var newRowHtml4 = '</td><td><a href="/details/'
+	var newRowHtml5 = '"><div class="pull-right">View/Edit Details</div></a></td></tr>'
 	var bodyString = 'name='+taskName;
 
 	var req = new XMLHttpRequest();
@@ -48,5 +49,6 @@ var addNew = function (taskName){
 		var $newRow = newRowHtml1+newTaskId+newRowHtml2+newTaskId+newRowHtml3+newTaskName+newRowHtml4+newTaskId+newRowHtml5;
 		$newtaskform.parent().before($newRow);
 		$completed=$('.completed-box');
+		$('#newtask').val('').focus();
 	});
 }

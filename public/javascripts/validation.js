@@ -1,7 +1,6 @@
 $('.checkforname').submit(function(e){
 	$('.alert').hide();
 	if (!$('input[name="name"]').val()){
-		console.log('AOOOOOO');
 		if($('.alert').length){
 			$('alert').show();
 		} else {

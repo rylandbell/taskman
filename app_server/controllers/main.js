@@ -142,7 +142,11 @@ module.exports.updateTask = function(req, res, next){
       if(response.statusCode===400 && body.name==='ValidationError'){
         res.redirect('/details/'+req.params.taskid+'?err=validation');
       } else if(response.statusCode===200){
-        res.redirect('/details/'+req.params.taskid);
+        if(req.body.gotolist){
+          res.redirect('/');
+        } else {
+          res.redirect('/details/'+req.params.taskid);
+        }
       } else {
         _showError(req, res, response.statusCode);
       }
@@ -186,8 +190,3 @@ module.exports.deleteCompleted = function (req, res, next){
       }
     });
 };
-
-// for testing Google calendar API:
-module.exports.google = function (req, res){
-  res.render('google',{});
-}
