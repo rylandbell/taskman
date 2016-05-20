@@ -85,6 +85,10 @@ $('document').ready(function(){
       dateTime: setTimes(formDataObject,parseInt(formDataObject.duration))
     };
     function setTimes(formDate,duration){
+      if(parseInt(formDate.hour)===12){
+        formDate.hour=0;
+      }
+      console.log(formDate.hour);
       if(Modernizr.inputtypes.date){
         var year = formDate.date.slice(0,4);
         var month = formDate.date.slice(5,7)-1;
