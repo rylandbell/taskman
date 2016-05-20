@@ -35,10 +35,19 @@ block content
                     =task.dateAdded
                 .form-group
                   label Due Date
-                  -if (task.dateDue)
-                    input.form-control(type='date' value='#{task.dateDue}' name='dateDue')
-                  -else
-                    input.form-control(type='date' name='dateDue')
+                  .datepicker-no.form-inline 
+                    //- p Please enter a string in the form 'YYYY-MM-DD.'
+                    | Month:
+                    input.form-control(type='number' min=1 max=12 value=1 name='month-due')
+                    | Day:
+                    input.form-control(type='number' min=1 max=31 value=1 name='datenumber-due')
+                    | Year:
+                    input.form-control(type='number' min=2016 max=2025 value=2016 name='year-due')
+                  .datepicker-yes
+                    -if (task.dateDue)
+                      input.form-control(type='date' value='#{task.dateDue}' name='dateDue')
+                    -else
+                      input.form-control(type='date' name='dateDue')
                 .form-group
                   label Details 
                   textarea.form-control(rows='10' name='details')
@@ -69,11 +78,19 @@ block content
                 label Event Name
                 input.form-control(type='text' value='#{task.name}' name='name')
               .form-group
-                label Date (YYYY-MM-DD)
-                -if (task.dateDue)
-                  input.form-control(type='date' value='#{task.dateDue}' name='date')
-                -else
-                  input.form-control(type='date' name='date')
+                label Event Date
+                .datepicker-no.form-inline 
+                  | Month:
+                  input.form-control(type='number' min=1 max=12 value=1 name='month')
+                  | Day:
+                  input.form-control(type='number' min=1 max=31 value=1 name='datenumber')
+                  | Year:
+                  input.form-control(type='number' min=2016 max=2025 value=2016 name='year')
+                .datepicker-yes
+                  -if (task.dateDue)
+                    input.form-control(type='date' value='#{task.dateDue}' name='date')
+                  -else
+                    input.form-control(type='date' name='date')
               .form-group
                 label Start Time
                 .form-inline
@@ -111,5 +128,6 @@ block content
             button.btn.btn-primary(type='button').success-view View Event on Calendar
 
 block scripts
+  script(src='/javascripts/modernizr.js')
   script(src='/javascripts/calendar.js')  
   script(src='https://apis.google.com/js/client.js')

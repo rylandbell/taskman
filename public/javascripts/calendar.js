@@ -77,17 +77,23 @@ $('document').ready(function(){
     // Translate the form data into the event format to be sent to Google
     newEvent.summary = formDataObject.name;
     newEvent.start = {
-      // timeZone: 'America/Los_Angeles',
+      timeZone: 'America/Los_Angeles',
       dateTime: setTimes(formDataObject,0) 
     };
     newEvent.end = {
-      // timeZone: 'America/Los_Angeles',
+      timeZone: 'America/Los_Angeles',
       dateTime: setTimes(formDataObject,parseInt(formDataObject.duration))
     };
     function setTimes(formDate,duration){
-      var year = formDate.date.slice(0,4);
-      var month = formDate.date.slice(5,7)-1;
-      var date = formDate.date.slice(8,10);
+      if(Modernizr.inputtypes.date){
+        var year = formDate.date.slice(0,4);
+        var month = formDate.date.slice(5,7)-1;
+        var date = formDate.date.slice(8,10);
+      } else {
+        var year = formDate.year;
+        var month = formDate.month-1;
+        var date = formDate.datenumber;
+      }
       var targetTime = new Date(year,month,date,formDate.hour,formDate.min);
       if(formDate['am-pm']==='pm'){
         targetTime.setHours(targetTime.getHours()+12);
