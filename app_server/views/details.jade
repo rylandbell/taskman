@@ -41,16 +41,16 @@ block content
                       -var datenumberDue = new Date(task.dateDue).getUTCDate();
                       -var yearDue = new Date(task.dateDue).getUTCFullYear();
                         | Month:
-                        input.form-control(type='number' min=1 max=12 value=monthDue name='month')
+                        input.form-control.month-picker(type='number' min=1 max=12 value=monthDue name='month')
                         | Day:
-                        input.form-control(type='number' min=1 max=31 value=datenumberDue name='datenumber')
+                        input.form-control.date-number(type='number' min=1 max=31 value=datenumberDue name='datenumber')
                         | Year:
                         input.form-control(type='number' min=2016 max=2025 value=yearDue name='year')
                     -else
                       | Month:
-                      input.form-control(type='number' min=1 max=12 value=1 name='month')
+                      input.form-control.month-picker(type='number' min=1 max=12 value=1 name='month')
                       | Day:
-                      input.form-control(type='number' min=1 max=31 value=1 name='datenumber')
+                      input.form-control.date-number(type='number' min=1 max=31 value=1 name='datenumber')
                       | Year:
                       input.form-control(type='number' min=2016 max=2025 value=2016 name='year')
                   .datepicker-yes
@@ -95,16 +95,16 @@ block content
                     -var datenumberDue = new Date(task.dateDue).getUTCDate();
                     -var yearDue = new Date(task.dateDue).getUTCFullYear();
                       | Month:
-                      input.form-control(type='number' min=1 max=12 value=monthDue name='month')
+                      input.form-control.month-picker(type='number' min=1 max=12 value=monthDue name='month')
                       | Day:
-                      input.form-control(type='number' min=1 max=31 value=datenumberDue name='datenumber')
+                      input.form-control.date-number(type='number' min=1 max=31 value=datenumberDue name='datenumber')
                       | Year:
                       input.form-control(type='number' min=2016 max=2025 value=yearDue name='year')
                   -else
                     | Month:
-                    input.form-control(type='number' min=1 max=12 value=1 name='month')
+                    input.form-control.month-picker(type='number' min=1 max=12 value=1 name='month')
                     | Day:
-                    input.form-control(type='number' min=1 max=31 value=1 name='datenumber')
+                    input.form-control.date-number(type='number' min=1 max=31 value=1 name='datenumber')
                     | Year:
                     input.form-control(type='number' min=2016 max=2025 value=2016 name='year')
                 .datepicker-yes
@@ -149,6 +149,5 @@ block content
             button.btn.btn-primary(type='button').success-view View Event on Calendar
 
 block scripts
-  script(src='/javascripts/modernizr.js')
   script(src='/javascripts/calendar.js')  
   script(src='https://apis.google.com/js/client.js')

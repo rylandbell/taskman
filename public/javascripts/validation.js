@@ -30,8 +30,19 @@ $(document).ready(function(){
 			this.select();
 		})
 	}
+	//Disallow invalid date inputs, like February 31
+	function updateMaxDate(month){
+		var maxDates = [null,31,28,31,30,31,30,31,31,30,31,30,31];
+		$('.date-number').each(function(){
+			$(this).attr('max',maxDates[month]);
+			if($(this).val()>maxDates[month]){
+				$(this).val(maxDates[month]);
+			}
+		});
+	}
 
+	$('.month-picker').on('change',function(){
+		updateMaxDate(this.value);
+	});
 	
-
-
 })
