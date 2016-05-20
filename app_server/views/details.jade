@@ -26,14 +26,9 @@ block content
                 .form-group
                   label Task Name
                   input.form-control(type='text' value='#{task.name}' name='name')
-                .container
-                  .row
-                    .form-group.col-xs-2
-                      label Flagged?
-                      input.form-control(type='checkbox' checked=task.flagged name='flagged')
-                    .form-group.col-xs-4
-                      label Completed?
-                      input.form-control#completed(type='checkbox' checked=task.completed name='completed')
+                .form-group
+                  label Completed?
+                  input.form-control#completed(type='checkbox' checked=task.completed name='completed')
                 .form-group
                   label Date Added
                   p.form-control-static
@@ -74,11 +69,22 @@ block content
                 label Event Name
                 input.form-control(type='text' value='#{task.name}' name='name')
               .form-group
-                label Date
+                label Date (YYYY-MM-DD)
                 -if (task.dateDue)
                   input.form-control(type='date' value='#{task.dateDue}' name='date')
                 -else
                   input.form-control(type='date' name='date')
+              .form-group
+                label Start Time
+                select.form-control(name='hour')
+                  each hour in [12,1,2,3,4,5,6,7,8,9,10,11]
+                    option(value='#{hour}')= hour
+                select.form-control(name='min')
+                  each minutes in ['00','15','30','45']
+                    option(value='#{minutes}')= minutes
+                select.form-control(name='am-pm')
+                  option(value='am') AM
+                  option(value='pm' selected='selected') PM  
               .form-group
                 label Duration
                 select.form-control(name='duration')

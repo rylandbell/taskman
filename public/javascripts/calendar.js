@@ -66,7 +66,8 @@ $('document').ready(function(){
 
   function prepEventObject(){
     // Build a data object from the event form:
-    var formDataObject = {}, newEvent = {};
+    var formDataObject = {}; 
+    var newEvent = {};
     var $form = $('#calendar-form');
     var formDataArray = $form.serializeArray();
     for (var i = 0; i<formDataArray.length; i++){
@@ -76,15 +77,21 @@ $('document').ready(function(){
     // Translate the form data into the event format to be sent to Google
     newEvent.summary = formDataObject.name;
     newEvent.start = {
-      timeZone: 'America/Los_Angeles',
-      dateTime: setTimes(formDataObject.date,0) 
+      // timeZone: 'America/Los_Angeles',
+      dateTime: setTimes(formDataObject,0) 
     };
     newEvent.end = {
-      timeZone: 'America/Los_Angeles',
-      dateTime: setTimes(formDataObject.date,formDataObject.duration)
+      // timeZone: 'America/Los_Angeles',
+      dateTime: setTimes(formDataObject,parseInt(formDataObject.duration))
     };
-    function setTimes(date,duration){
-      var targetTime = new Date(date);
+    function setTimes(formDate,duration){
+      var year = formDate.date.slice(0,4);
+      var month = formDate.date.slice(5,7)-1;
+      var date = formDate.date.slice(8,10);
+      var targetTime = new Date(year,month,date,formDate.hour,formDate.min);
+      if(formDate['am-pm']==='pm'){
+        targetTime.setHours(targetTime.getHours()+12);
+      };
       targetTime.setMinutes(targetTime.getMinutes()+duration);
       return targetTime.toISOString();
     }

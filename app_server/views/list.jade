@@ -2,12 +2,11 @@ include _includes/helper_functions.jade
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
   .container
     .row
       .panel.panel-primary
         .panel-heading
+          .panel-title List View
         .panel-body
           table.table
             thead
@@ -34,7 +33,7 @@ block content
                 form(action="/create", method="post", role="form").checkforname#newtaskform
                   td
                   td
-                    input(type='text' value='New Task' name="name" autocomplete='off')#newtask
+                    input(type='text' value='New Task' name="name" autocomplete='off' autofocus)#newtask
                   td 
                     button.btn-primary.pull-right Add New Task
           -if(!show_completed)
