@@ -9,3 +9,12 @@ mixin simplifyDate(date)
   -var outputDate = year+'-'+month+'-'+day;
   -console.log(outputDate);
   =outputDate
+
+mixin getYear(date)
+  =date.getYear()
+
+mixin getDatenumber(date)
+  =date.getDate()
+
+mixin getMonth(date)
+  =date.getMonth()+1
