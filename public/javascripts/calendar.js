@@ -77,6 +77,7 @@ $('document').ready(function(){
 
     // Translate the form data into the event format to be sent to Google
     newEvent.summary = formDataObject.name;
+    newEvent.description = formDataObject.description;
     newEvent.start = {
       timeZone: 'America/Los_Angeles',
       dateTime: setTimes(formDataObject,0) 
@@ -86,22 +87,23 @@ $('document').ready(function(){
       dateTime: setTimes(formDataObject,parseInt(formDataObject.duration))
     };
     function setTimes(formDate,duration){
+      var year, month, date;
       if(parseInt(formDate.hour)===12){
         formDate.hour=0;
       }
       if(Modernizr.inputtypes.date){
-        var year = formDate.date.slice(0,4);
-        var month = formDate.date.slice(5,7)-1;
-        var date = formDate.date.slice(8,10);
+        year = formDate.date.slice(0,4);
+        month = formDate.date.slice(5,7)-1;
+        date = formDate.date.slice(8,10);
       } else {
-        var year = formDate.year;
-        var month = formDate.month-1;
-        var date = formDate.datenumber;
+        year = formDate.year;
+        month = formDate.month-1;
+        date = formDate.datenumber;
       }
       var targetTime = new Date(year,month,date,formDate.hour,formDate.min);
       if(formDate['am-pm']==='pm'){
         targetTime.setHours(targetTime.getHours()+12);
-      };
+      }
       targetTime.setMinutes(targetTime.getMinutes()+duration);
       return targetTime.toISOString();
     }
@@ -117,7 +119,6 @@ $('document').ready(function(){
   function failedAdd(e){
     $('#fail-message').removeClass('invisible');
     $('#error-message').text('\"'+e.message+'\"');
-    console.log(e);
   }
 
   //check authorization when user initiates calendar add process
@@ -143,7 +144,7 @@ $('document').ready(function(){
     $('#completed').prop('checked',true);
     $('#gotolist').prop('checked',true);
     $('#update-form').submit();
-  })
+  });
 });
 
 

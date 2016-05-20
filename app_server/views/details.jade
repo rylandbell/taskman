@@ -142,7 +142,7 @@ block content
                   option(value=180) 3:00
               .form-group
                 label Event Description
-                textarea.form-control
+                textarea(name='description').form-control
                   |#{task.details}
           #auth-panel.auth-view
             p We can only add events to your Google calendar with your permission. The button below will pop up an authentication window for your Google account.
