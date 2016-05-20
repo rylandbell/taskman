@@ -76,15 +76,16 @@ block content
                   input.form-control(type='date' name='date')
               .form-group
                 label Start Time
-                select.form-control(name='hour')
-                  each hour in [12,1,2,3,4,5,6,7,8,9,10,11]
-                    option(value='#{hour}')= hour
-                select.form-control(name='min')
-                  each minutes in ['00','15','30','45']
-                    option(value='#{minutes}')= minutes
-                select.form-control(name='am-pm')
-                  option(value='am') AM
-                  option(value='pm' selected='selected') PM  
+                .form-inline
+                  select.form-control(name='hour')
+                    each hour in [12,1,2,3,4,5,6,7,8,9,10,11]
+                      option(value='#{hour}')= hour
+                  select.form-control(name='min')
+                    each minutes in ['00','15','30','45']
+                      option(value='#{minutes}')= minutes
+                  select.form-control(name='am-pm')
+                    option(value='am') AM
+                    option(value='pm' selected='selected') PM  
               .form-group
                 label Duration
                 select.form-control(name='duration')
@@ -99,7 +100,6 @@ block content
             p We can only add events to your Google calendar with your permission. The button below will pop up an authentication window for your Google account.
           .success-view Your event has been successfully added.&nbsp;
             p
-              //- a(target='_blank')#event-link You can view your event here. 
             p Would you like to mark this task completed in TaskMan and return to list view?
 
         .modal-footer
