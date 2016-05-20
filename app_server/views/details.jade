@@ -38,11 +38,11 @@ block content
                   .datepicker-no.form-inline 
                     //- p Please enter a string in the form 'YYYY-MM-DD.'
                     | Month:
-                    input.form-control(type='number' min=1 max=12 value=1 name='month-due')
+                    input.form-control(type='number' min=1 max=12 value=1 name='month')
                     | Day:
-                    input.form-control(type='number' min=1 max=31 value=1 name='datenumber-due')
+                    input.form-control(type='number' min=1 max=31 value=1 name='datenumber')
                     | Year:
-                    input.form-control(type='number' min=2016 max=2025 value=2016 name='year-due')
+                    input.form-control(type='number' min=2016 max=2025 value=2016 name='year')
                   .datepicker-yes
                     -if (task.dateDue)
                       input.form-control(type='date' value='#{task.dateDue}' name='dateDue')

@@ -12,14 +12,26 @@ $(document).ready(function(){
 		}
 	})
 
+	//Date picker polyfill (uses three number inputs instead of a date input)
 	if(Modernizr.inputtypes.date){
 		$('.datepicker-no').hide();
 	} else {
 		$('.datepicker-yes').hide();
+		$('#update-form').on('submit',function(e){
+			e.preventDefault();
+			var month=this.month.value;
+			var datenumber=this.datenumber.value;
+			var year=this.year.value;
+			var fullDate = year+'-'+month+'-'+datenumber;
+			this.dateDue.value = fullDate;
+			this.submit();
+		});
+		$('.datepicker-no input').on('click',function(){
+			this.select();
+		})
 	}
 
-	$('.datepicker-no input').on('click',function(){
-		this.select();
-	})
+	
+
 
 })
