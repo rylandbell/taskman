@@ -23,9 +23,7 @@ block content
                   td
                     form(action="/updatecompleted/", method="post", role="form")
                       input(type='checkbox', checked=task.completed, name='box_name' value="#{task._id}").completed-box
-                  td= task.name
-                    -if(task.flagged)
-                      span.pull-right.glyphicon.glyphicon-fire
+                  td.task-name= task.name
                   td
                     a(href="/details/"+'#{task._id}')
                       .pull-right View/Edit Details
@@ -40,13 +38,14 @@ block content
             form(action="/", method="get", role="form")
               button(name='show_completed', value=1).btn-primary Show Completed Tasks
           -else
-            form(action="/", method="get", role="form")
+            form(action="/", method="get", role="form")#hide-completed
               button(name='show_completed', value=0).btn-primary Hide Completed Tasks
             | <br />
             form(action="/deletecompleted", method="post", role="form")
               button.btn-danger.pull-right
                 .i.glyphicon.glyphicon-trash
-                | &nbsp;Delete Completed Tasks  
+                | &nbsp;Delete Completed Tasks
+
       -if(message)
         .container
           .row

@@ -4,10 +4,7 @@ var $newtaskform = $('#newtaskform');
 
 //Selecting .completed-box this way allows the listener to 'hear' clicks from dynamically added elements
 $('table').on('click','.completed-box',function(){
-	//only submit on check, not un-check (eventually, un-check should do something too)
-	if(this.checked){
-		markComplete(this.value);
-	}
+	markComplete(this.value,this.checked);
 })
 
 $newtaskform.submit(function(e){
@@ -16,8 +13,8 @@ $newtaskform.submit(function(e){
 	addNew(taskName);
 })
 
-var markComplete = function (taskId){
-	var bodyString = 'box_name='+taskId;
+var markComplete = function (taskId, isChecked){
+	var bodyString = 'box_name='+taskId+'&is_checked='+isChecked;
 
 	var req = new XMLHttpRequest();
 	req.open('POST','/updatecompleted/',true);
@@ -26,7 +23,15 @@ var markComplete = function (taskId){
 	req.send(bodyString);
 	req.addEventListener('load', function(){
 		var targetRow = $('#'+taskId);
-		targetRow.fadeOut(500);
+		if(isChecked){
+			if(document.getElementById('hide-completed')){
+				targetRow.addClass('finished');
+			} else {
+				targetRow.fadeOut(500);
+			}
+		} else {
+			targetRow.removeClass('finished');
+		}
 	});
 };
 
@@ -52,3 +57,4 @@ var addNew = function (taskName){
 		$('#newtask').val('').focus();
 	});
 }
+

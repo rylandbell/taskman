@@ -157,11 +157,12 @@ module.exports.updateTask = function(req, res, next){
 // POST call to mark a task completed from List View (PUT in API)
 module.exports.updateCompleted = function (req, res, next){
   var taskId = req.body.box_name;
+  var isChecked = req.body.is_checked;
   var path = '/api/tasks/'+taskId;
   var requestOptions = {
     url: apiOptions.server + path,
     method: "PUT",
-    json: {'completed': true},
+    json: {'completed': isChecked},
     qs: {}
   };
   request(requestOptions, function (err, response, body){
