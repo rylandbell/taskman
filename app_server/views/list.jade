@@ -31,7 +31,7 @@ block content
                 form(action="/create", method="post", role="form").checkforname#newtaskform
                   td
                   td
-                    input(type='text' value='New Task' name="name" autocomplete='off' autofocus)#newtask
+                    input(type='text' placeholder='New Task' name="name" autocomplete='off' autofocus)#newtask
                   td 
                     button.btn-primary.pull-right Add New Task
           -if(!show_completed)

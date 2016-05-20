@@ -19,9 +19,11 @@ var markComplete = function (taskId, isChecked){
 	var req = new XMLHttpRequest();
 	req.open('POST','/updatecompleted/',true);
 	req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
 	req.send(bodyString);
+
+	$('html').addClass('waiting');
 	req.addEventListener('load', function(){
+		$('html').removeClass('waiting');
 		var targetRow = $('#'+taskId);
 		if(isChecked){
 			if(document.getElementById('hide-completed')){

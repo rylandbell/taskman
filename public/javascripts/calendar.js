@@ -55,6 +55,7 @@ $('document').ready(function(){
 
   //Show appropriate UI elements, depending on authorized status
   function updateAuthDisplay(authorized){
+    $('#auth-waiting').hide();
     if (authorized) {
       $('.auth-view').hide();
       $('.add-view').show();
@@ -88,7 +89,6 @@ $('document').ready(function(){
       if(parseInt(formDate.hour)===12){
         formDate.hour=0;
       }
-      console.log(formDate.hour);
       if(Modernizr.inputtypes.date){
         var year = formDate.date.slice(0,4);
         var month = formDate.date.slice(5,7)-1;
@@ -115,12 +115,14 @@ $('document').ready(function(){
   }
 
   function failedAdd(e){
-    console.log('failure?');
+    $('#fail-message').removeClass('invisible');
+    $('#error-message').text('\"'+e.message+'\"');
     console.log(e);
   }
 
   //check authorization when user initiates calendar add process
   $('#cal-init').on('click',function(){
+    $('#auth-waiting').show();
     goog.checkAuth(true);
   });
 
@@ -130,6 +132,7 @@ $('document').ready(function(){
 
   //send data to google calendar when user submits calendar form
   $('#send-btn').on('click',function(e){
+    $('#fail-message').addClass('invisible');
     e.preventDefault();   
     var myEvent = prepEventObject();
     goog.addEvent(myEvent, successfulAdd, failedAdd);
