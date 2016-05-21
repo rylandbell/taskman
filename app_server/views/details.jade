@@ -95,6 +95,17 @@ block content
                 input.form-control(type='text' value='#{task.name}' name='name')
               .form-group
                 label Event Date
+                .datepicker-yes
+                  -if (task.dateDue)
+                    input.form-control(type='date' value='#{task.dateDue}' name='date')
+                  -else
+                    -var today = new Date();
+                    -var thisYear = today.getFullYear();
+                    -var thisMonth = (today.getMonth()+1).toString();
+                    -if (today.getMonth()<9){thisMonth = '0'+thisMonth};
+                    -var thisDay = today.getDate();
+                    -var dateString = thisYear+'-'+thisMonth+'-'+thisDay;
+                      input.form-control(type='date' name='date' value='#{dateString}')
                 .datepicker-no.form-inline 
                   -if (task.dateDue)
                     -var monthDue = new Date(task.dateDue).getUTCMonth()+1;
@@ -113,11 +124,6 @@ block content
                     input.form-control.date-number(type='number' min=1 max=31 value=1 name='datenumber')
                     | Year:
                     input.form-control(type='number' min=2016 max=2025 value=2016 name='year')
-                .datepicker-yes
-                  -if (task.dateDue)
-                    input.form-control(type='date' value='#{task.dateDue}' name='date')
-                  -else
-                    input.form-control(type='date' name='date')
               .form-group
                 label Start Time
                 .form-inline
