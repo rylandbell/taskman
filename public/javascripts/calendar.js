@@ -66,9 +66,10 @@ $('document').ready(function(){
   }
 
   function prepEventObject(){
+    var newEvent = {};
+
     // Build a data object from the event form:
     var formDataObject = {}; 
-    var newEvent = {};
     var $form = $('#calendar-form');
     var formDataArray = $form.serializeArray();
     for (var i = 0; i<formDataArray.length; i++){
@@ -86,6 +87,8 @@ $('document').ready(function(){
       timeZone: 'America/Los_Angeles',
       dateTime: setTimes(formDataObject,parseInt(formDataObject.duration))
     };
+
+    // Translates form time data into date object, then ISO string:
     function setTimes(formDate,duration){
       var year, month, date;
       if(parseInt(formDate.hour)===12){
@@ -110,6 +113,7 @@ $('document').ready(function(){
     return newEvent;
   }
 
+  //callbacks for goog.addEvent:
   function successfulAdd(e){
     $('.add-view').hide();
     $('.success-view').show();
@@ -127,6 +131,7 @@ $('document').ready(function(){
     goog.checkAuth(true);
   });
 
+  //take an unauthorized user to the Google auth page
   $('#auth-init').on('click',function(){
     goog.checkAuth(false);
   });
@@ -144,6 +149,39 @@ $('document').ready(function(){
     $('#completed').prop('checked',true);
     $('#gotolist').prop('checked',true);
     $('#update-form').submit();
+  });
+
+  //~~~~~~~~~~~~Polyfill for datepicker input:~~~~~~~~~~~~~
+  if(Modernizr.inputtypes.date){
+    $('.datepicker-no').hide();
+  } else {
+    $('.datepicker-yes').hide();
+    $('#update-form').on('submit',function(e){
+      e.preventDefault();
+      var month=this.month.value;
+      var datenumber=this.datenumber.value;
+      var year=this.year.value;
+      var fullDate = year+'-'+month+'-'+datenumber;
+      this.dateDue.value = fullDate;
+      this.submit();
+    });
+    $('.datepicker-no input').on('click',function(){
+      this.select();
+    })
+  }
+  //Disallow invalid date inputs, like February 31
+  function updateMaxDate(month){
+    var maxDates = [null,31,28,31,30,31,30,31,31,30,31,30,31];
+    $('.date-number').each(function(){
+      $(this).attr('max',maxDates[month]);
+      if($(this).val()>maxDates[month]){
+        $(this).val(maxDates[month]);
+      }
+    });
+  }
+
+  $('.month-picker').on('change',function(){
+    updateMaxDate(this.value);
   });
 });
 
