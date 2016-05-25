@@ -79,7 +79,7 @@ module.exports.details = function(req, res, next) {
   var requestOptions = {
     url: apiOptions.server + path,
     method: "GET",
-    json: {},
+    json: req.cookies,
     qs: {}
   };
   request(requestOptions, function (err, response, body){
@@ -183,7 +183,7 @@ module.exports.deleteCompleted = function (req, res, next){
   var requestOptions = {
     url: apiOptions.server + path,
     method: "DELETE",
-    json: {},
+    json: req.cookies,
     qs: {}
   };
     request(requestOptions, function (err, response, body){
