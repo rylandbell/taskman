@@ -160,10 +160,12 @@ module.exports.updateCompleted = function (req, res, next){
   var taskId = req.body.box_name;
   var isChecked = req.body.is_checked;
   var path = '/api/tasks/'+taskId;
+  var apiRequestBody = req.cookies;
+  apiRequestBody.completed = isChecked;
   var requestOptions = {
     url: apiOptions.server + path,
     method: "PUT",
-    json: {'completed': isChecked},
+    json: apiRequestBody,
     qs: {}
   };
   request(requestOptions, function (err, response, body){
