@@ -1,8 +1,6 @@
 var mongoose = require('mongoose');
 var taskModel = mongoose.model('Task');
 
-var currentUser = "gandalf";
-
 //helper function for composing responses as status codes (e.g. 404) with JSON files
 var sendJsonResponse = function (res, status, content){
 	res.status(status);
@@ -16,7 +14,7 @@ module.exports.tasksList = function (req, res) {
   	//query.show_completed is 0 or 1 as a string, so convert to Boolean:
   	var completedBool = Boolean(parseInt(req.query.show_completed));
   	//Unless told to show completed tasks, only return items with a completed value of false:
-	var filter={ownedByUser: currentUser};
+	var filter={};
 	if(!completedBool){
 		filter.completed=false;
 	}
@@ -142,8 +140,8 @@ module.exports.tasksDeleteOne = function (req, res) {
 // DELETE all tasks marked completed
 module.exports.tasksDeleteCompleted = function (req, res) {
 	var filter={
-		'completed': true,
-		'ownedByUser': currentUser}
+		'completed': true
+		}
 	taskModel
 	  .find(filter)
 	  .remove(function(err) {

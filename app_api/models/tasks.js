@@ -8,7 +8,7 @@ var taskSchema = new mongoose.Schema({
 	details: {type: String},
 	dateAdded: {type: Date, "default": new Date()},
 	dateDue: Date,
-	ownedByUser: String
+	ownerId: String
 });
 
 //connect this schema to the database. automatically creates a MongoDB collection 'tasks' based on the supplied parameter 'Task'
