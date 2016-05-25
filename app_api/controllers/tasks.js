@@ -42,11 +42,11 @@ var getOwnerId = function(req, res, callback) {
 
 /* GET list of tasks (optionally filters completed tasks) */
 module.exports.tasksList = function (req, res) {
-	getOwnerId(req, res, function (req, res, userId) {
+	getOwnerId(req, res, function (req, res, ownerId) {
 	  	//query.show_completed is 0 or 1 as a string, so convert to Boolean:
 	  	var completedBool = Boolean(parseInt(req.query.show_completed));
 	  	//Unless told to show completed tasks, only return items with a completed value of false:
-		var filter={ownerId: userId};
+		var filter={ownerId: ownerId};
 		if(!completedBool){
 			filter.completed=false;
 		}
@@ -59,15 +59,14 @@ module.exports.tasksList = function (req, res) {
 		      sendJsonResponse(res, 404, err);
 		      return;
 		    }
-		    sendJsonResponse(res, 200, task, userId);
+		    sendJsonResponse(res, 200, task, ownerId);
 		  });
 	});
 };
 
 /* GET one task by taskid */
 module.exports.tasksReadOne = function (req, res) {
-	getOwnerId(req, res, function (req, res, userId) {
-		console.log('Finding task details', req.params);
+	getOwnerId(req, res, function (req, res, ownerId) {
 		if (req.params && req.params.taskid) {
 		  taskModel
 		    .findById(req.params.taskid)
@@ -82,7 +81,13 @@ module.exports.tasksReadOne = function (req, res) {
 		        sendJsonResponse(res, 404, err);
 		        return;
 		      }
-		      console.log(task);
+		      if (!task.ownerId || task.ownerId!=ownerId){
+		      	console.log("Wrong owner!");
+		      	sendJsonResponse(res, 404, {
+		      		"message": "User not authorized to perform that action"
+		      	});
+		      	return;
+		      }
 		      sendJsonResponse(res, 200, task);
 		    });
 		} else {
@@ -96,14 +101,14 @@ module.exports.tasksReadOne = function (req, res) {
 
 /* POST a new task */
 module.exports.tasksCreate = function (req, res) {
-	getOwnerId(req, res, function (req, res, userId) {
+	getOwnerId(req, res, function (req, res, ownerId) {
 		taskModel.create({
 		  name: req.body.name,
 		  flagged: req.body.flagged,
 		  details: req.body.details,
 		  dateDue: req.body.dateDue,
 		  completed: req.body.completed,
-		  ownerId: userId
+		  ownerId: ownerId
 		}, function(err, task) {
 		  if (err) {
 		    console.log(err);
@@ -118,7 +123,7 @@ module.exports.tasksCreate = function (req, res) {
 
 // PUT update one task
 module.exports.tasksUpdateOne = function (req, res) {
-	getOwnerId(req, res, function (req, res, userId) {
+	getOwnerId(req, res, function (req, res, ownerId) {
 		if (!req.params.taskid) {
 		  sendJsonResponse(res, 404, {
 		    "message": "Not found, taskid is required"
@@ -138,6 +143,14 @@ module.exports.tasksUpdateOne = function (req, res) {
 		        sendJsonResponse(res, 400, err);
 		        return;
 		      }
+		      if (!task.ownerId || task.ownerId!=ownerId){
+		      	console.log("Wrong owner!");
+		      	sendJsonResponse(res, 404, {
+		      		"message": "User not authorized to perform that action"
+		      	});
+		      	return
+		      }
+
 		      for (key in req.body){
 		      	task[key] = req.body[key];
 			  }
@@ -153,37 +166,12 @@ module.exports.tasksUpdateOne = function (req, res) {
 	});
 };
 
-// DELETE one task
-module.exports.tasksDeleteOne = function (req, res) {
-	getOwnerId(req, res, function (req, res, userId) {
-		var taskid = req.params.taskid;
-		if (taskid) {
-		  taskModel
-		    .findByIdAndRemove(taskid)
-		    .exec(
-		      function(err, task) {
-		        if (err) {
-		          sendJsonResponse(res, 404, err);
-		          return;
-		        }
-		        console.log("Task id " + taskid + " deleted");
-		        sendJsonResponse(res, 204, null);
-		      }
-		  );
-		} else {
-		  sendJsonResponse(res, 404, {
-		    "message": "No taskid"
-		  });
-		}
-	});
-};
-
 // DELETE all tasks marked completed
 module.exports.tasksDeleteCompleted = function (req, res) {
-	getOwnerId(req, res, function (req, res, userId) {
+	getOwnerId(req, res, function (req, res, ownerId) {
 		var filter={
 			'completed': true,
-			'ownerId': userId
+			'ownerId': ownerId
 			}
 		taskModel
 		  .find(filter)
@@ -197,3 +185,60 @@ module.exports.tasksDeleteCompleted = function (req, res) {
 		  });
 	});
 };
+
+// DELETE one task
+// Commenting this out since the current app doesn't use it. The authorization bit hasn't been tested.
+
+// module.exports.tasksDeleteOne = function (req, res) {
+// 	getOwnerId(req, res, function (req, res, ownerId) {
+// 		var taskid = req.params.taskid;
+// 		//First make sure that the user is the owner of the task:
+// 		var allowed = taskModel
+// 		  .findById(req.params.taskid)
+// 		  .exec(
+// 		    function(err, task) {
+// 		      if (!task) {
+// 		        sendJsonResponse(res, 404, {
+// 		          "message": "taskid not found"
+// 		        });
+// 		        return false;
+// 		      } else if (err) {
+// 		        sendJsonResponse(res, 400, err);
+// 		        return false;
+// 		      }
+// 		      if (!task.ownerId || task.ownerId!=ownerId){
+// 		      	console.log("Wrong owner!");
+// 		      	sendJsonResponse(res, 404, {
+// 		      		"message": "User not authorized to perform that action"
+// 		      	});
+// 		      	return false;
+// 		      }
+// 		      return true;
+// 		  	});
+// 		console.log(allowed);
+// 		if (!allowed){
+// 			return;
+// 		}
+// 		//Then delete the task:
+// 		if (taskid) {
+// 		  taskModel
+// 		    .findByIdAndRemove(taskid)
+// 		    .exec(
+// 		      function(err, task) {
+// 		        if (err) {
+// 		          sendJsonResponse(res, 404, err);
+// 		          return;
+// 		        }
+// 		        console.log("Task id " + taskid + " deleted");
+// 		        sendJsonResponse(res, 204, null);
+// 		      }
+// 		  );
+// 		} else {
+// 		  sendJsonResponse(res, 404, {
+// 		    "message": "No taskid"
+// 		  });
+// 		}
+// 	});
+// };
+
+
