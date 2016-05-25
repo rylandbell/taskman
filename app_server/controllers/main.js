@@ -27,7 +27,6 @@ var _showError = function (req, res, statusCode){
 
 /* GET task list page*/
 var renderListView = function (req, res, responseBody, completedBool){ 
-  console.log(responseBody);
   var message;
   if(!(responseBody instanceof Array)){
     message = "API lookup error";
@@ -53,7 +52,7 @@ module.exports.list = function(req, res, next) {
   var requestOptions = {
     url: apiOptions.server + path,
     method: "GET",
-    json: {},
+    json: req.cookies,
     //qs transmits values as a string, so sending the raw 0-or-1-as-string value of show_completed
     qs: {'show_completed': req.query.show_completed}
   };
@@ -101,11 +100,13 @@ module.exports.details = function(req, res, next) {
 
 // POST new task from list view 
 module.exports.newTask = function(req, res, next) {
+  var apiRequestBody = req.cookies;
+  apiRequestBody.name = req.body.name;
   var path = '/api/tasks';
   var requestOptions = {
     url: apiOptions.server + path,
     method: "POST",
-    json: {name: req.body.name},
+    json: apiRequestBody,
     qs: {}
   };
   if(!req.body.name){

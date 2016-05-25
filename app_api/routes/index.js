@@ -3,7 +3,17 @@ var router = express.Router();
 var jwt = require('express-jwt');
 var auth = jwt({
 	secret: process.env.JWT_SECRET,
-	userProperty: 'payload'
+	userProperty: 'payload',
+	getToken: function (req){
+		if(req.body.token){
+			console.log("Attempting to use token= "+req.body.token)
+			return req.body.token;
+		} else {
+			console.log("Couldn't find a cookie token");
+			console.log(req.body.token);
+			return null;
+		}
+	}
 });
 
 var ctrlTasks = require('../controllers/tasks');
