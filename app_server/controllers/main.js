@@ -129,11 +129,13 @@ module.exports.newTask = function(req, res, next) {
 
 // POST call to update task info from Details View (PUT in API)
 module.exports.updateTask = function(req, res, next){
+  var apiRequestBody = req.body;
+  apiRequestBody.token = req.cookies.token;
   var path = '/api/tasks/'+req.params.taskid;
   var requestOptions = {
     url: apiOptions.server + path,
     method: "PUT",
-    json: req.body,
+    json: apiRequestBody,
     qs: {}
   };
   if(!req.body.name){
