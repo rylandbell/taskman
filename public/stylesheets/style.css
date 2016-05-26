@@ -63,5 +63,5 @@ input[type='number'] {
 }
 
 .datepicker-yes, .datepicker-no {
-	visibility: hidden
+	display: none;
 }
