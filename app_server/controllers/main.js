@@ -259,3 +259,26 @@ module.exports.submitCredentials = function(req, res, next) {
     }
   });
 }
+
+// POST register new user
+module.exports.registerNew = function(req, res, next) {
+  var path = '/api/register';
+  var requestOptions = {
+    url: apiOptions.server + path,
+    method: "POST",
+    json: req.body,
+    qs: {}
+  };
+  request(requestOptions, function (err, response, body){
+    var cookieOptions = {};
+    cookieOptions.maxAge = 1000*3600*24*7;
+    if(response.statusCode===200){
+      res.cookie('token', response.body.token, cookieOptions);
+      res.redirect('/');
+    } else if (response.statusCode===400||response.statusCode===401){
+      renderLoginView(req, res, response.body);
+    } else {
+      _showError(req, res, response.statusCode);
+    }
+  });
+}

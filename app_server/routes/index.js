@@ -15,6 +15,9 @@ router.get('/login', ctrlMain.login);
 // POST credentials from login page
 router.post('/login', ctrlMain.submitCredentials)
 
+// POST register new user
+router.post('/register', ctrlMain.registerNew)
+
 // POST new task (from list view)
 router.post('/create', ctrlMain.newTask);
 
