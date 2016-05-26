@@ -28,20 +28,22 @@ var _showError = function (req, res, statusCode){
 /* GET task list page*/
 var renderListView = function (req, res, responseBody, completedBool){ 
   var message;
-  if(!(responseBody instanceof Array)){
+  if(!(responseBody.tasks instanceof Array)){
     message = "API lookup error";
     responseBody = [];
   } else {
-    if (responseBody.length===0) {
+    if (responseBody.tasks.length===0) {
       message = "No tasks found.";
     }
   }
+  console.log("OWNER NAME: "+responseBody.owner.name);
   res.render('list', {
     title: 'List View',
-    tasks: responseBody,
+    tasks: responseBody.tasks,
     show_completed: completedBool,
     message: message,
-    error: req.query.err
+    error: req.query.err,
+    userName: responseBody.owner.name
   });
 };
 
@@ -57,6 +59,10 @@ module.exports.list = function(req, res, next) {
     qs: {'show_completed': req.query.show_completed}
   };
   request(requestOptions, function (err, response, body){
+    if (body.message){
+      console.log('message= '+body.message);
+      res.redirect('/login');
+    }
     //sends show_completed to render function, which displays correct buttons (Show vs Hide Completed):
     //renderListView has its own error handling, so I call it regardless:
     renderListView(req,res,body,completedBool);
@@ -84,6 +90,7 @@ module.exports.details = function(req, res, next) {
   };
   request(requestOptions, function (err, response, body){
     // get YYYY-MM-DD formatted dates from ISO format:
+    console.log("MESSAGE: "+body.message);
     if(response.statusCode===200){
       if(body.dateAdded){
         body.dateAdded = body.dateAdded.substring(0,10);

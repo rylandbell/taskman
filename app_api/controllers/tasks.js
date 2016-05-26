@@ -9,7 +9,7 @@ var sendJsonResponse = function (res, status, content){
 }
 
 //helper function for getting author data from JWT
-var getOwnerId = function(req, res, callback) {
+var getOwnerData = function(req, res, callback) {
   console.log("Finding author with database ID " + req.payload._id);
   if (req.payload._id) {
     userModel
@@ -26,7 +26,7 @@ var getOwnerId = function(req, res, callback) {
           return;
         }
         console.log(user);
-        callback(req, res, user._id);
+        callback(req, res, user);
       });
 
   } else {
@@ -42,31 +42,34 @@ var getOwnerId = function(req, res, callback) {
 
 /* GET list of tasks (optionally filters completed tasks) */
 module.exports.tasksList = function (req, res) {
-	getOwnerId(req, res, function (req, res, ownerId) {
+	getOwnerData(req, res, function (req, res, owner) {
+		var responseBody={}
 	  	//query.show_completed is 0 or 1 as a string, so convert to Boolean:
 	  	var completedBool = Boolean(parseInt(req.query.show_completed));
 	  	//Unless told to show completed tasks, only return items with a completed value of false:
-		var filter={ownerId: ownerId};
+		var filter={ownerId: owner._id};
 		if(!completedBool){
 			filter.completed=false;
 		}
 
 		taskModel
 		  .find(filter)
-		  .exec(function(err, task) {
+		  .exec(function(err, tasks) {
 		    if (err) {
 		      console.log(err);
 		      sendJsonResponse(res, 404, err);
 		      return;
 		    }
-		    sendJsonResponse(res, 200, task, ownerId);
+		    responseBody.tasks=tasks;
+		    responseBody.owner=owner;
+		    sendJsonResponse(res, 200, responseBody);
 		  });
 	});
 };
 
 /* GET one task by taskid */
 module.exports.tasksReadOne = function (req, res) {
-	getOwnerId(req, res, function (req, res, ownerId) {
+	getOwnerData(req, res, function (req, res, ownerId) {
 		if (req.params && req.params.taskid) {
 		  taskModel
 		    .findById(req.params.taskid)
@@ -101,7 +104,7 @@ module.exports.tasksReadOne = function (req, res) {
 
 /* POST a new task */
 module.exports.tasksCreate = function (req, res) {
-	getOwnerId(req, res, function (req, res, ownerId) {
+	getOwnerData(req, res, function (req, res, ownerId) {
 		taskModel.create({
 		  name: req.body.name,
 		  flagged: req.body.flagged,
@@ -123,7 +126,7 @@ module.exports.tasksCreate = function (req, res) {
 
 // PUT update one task
 module.exports.tasksUpdateOne = function (req, res) {
-	getOwnerId(req, res, function (req, res, ownerId) {
+	getOwnerData(req, res, function (req, res, ownerId) {
 		if (!req.params.taskid) {
 		  sendJsonResponse(res, 404, {
 		    "message": "Not found, taskid is required"
@@ -168,7 +171,7 @@ module.exports.tasksUpdateOne = function (req, res) {
 
 // DELETE all tasks marked completed
 module.exports.tasksDeleteCompleted = function (req, res) {
-	getOwnerId(req, res, function (req, res, ownerId) {
+	getOwnerData(req, res, function (req, res, ownerId) {
 		var filter={
 			'completed': true,
 			'ownerId': ownerId
@@ -190,7 +193,7 @@ module.exports.tasksDeleteCompleted = function (req, res) {
 // Commenting this out since the current app doesn't use it. The authorization bit hasn't been tested.
 
 // module.exports.tasksDeleteOne = function (req, res) {
-// 	getOwnerId(req, res, function (req, res, ownerId) {
+// 	getOwnerData(req, res, function (req, res, ownerId) {
 // 		var taskid = req.params.taskid;
 // 		//First make sure that the user is the owner of the task:
 // 		var allowed = taskModel

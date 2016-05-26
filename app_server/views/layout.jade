@@ -23,13 +23,14 @@ html
             li
               a(href='/login') Sign In
             li#logout
-              a(href='/') Sign Out
+              a(href='/') #{userName}: Sign Out
     .container
       -if(error==='validation')
         .alert.alert-danger 
           strong Validation Error:
           |&nbsp; Please enter a name for your task.
       block content
+      h4= userName
       footer 
         .row
           .col-xs-12
