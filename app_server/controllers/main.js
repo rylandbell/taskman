@@ -74,9 +74,10 @@ var renderDetailsView = function (req, res, body){
   var message;
   res.render('details', {
     title: 'Details View',
-    task: body,
+    task: body.task,
     message: message,
-    error: req.query.err
+    error: req.query.err,
+    userName: body.owner.name
   });
 }
 

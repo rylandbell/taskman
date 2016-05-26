@@ -18,19 +18,24 @@ html
           a.navbar-brand(href='/') TaskMan Home
         // Collect the nav links, forms, and other content for toggling
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
-          ul.nav.navbar-nav
           ul.nav.navbar-nav.navbar-right
-            li
-              a(href='/login') Sign In
-            li#logout
-              a(href='/') #{userName}: Sign Out
+            //- p.navbar-text= userName
+            -if (userName)
+              li.dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')= userName
+                  span.caret
+                ul.dropdown-menu
+                  li#logout
+                    a(href='/') Sign Out
+            -else
+              li
+                a(href='/login') Sign In
     .container
       -if(error==='validation')
         .alert.alert-danger 
           strong Validation Error:
           |&nbsp; Please enter a name for your task.
       block content
-      h4= userName
       footer 
         .row
           .col-xs-12

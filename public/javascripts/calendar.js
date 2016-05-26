@@ -153,9 +153,9 @@ $('document').ready(function(){
 
   //~~~~~~~~~~~~Polyfill for datepicker input:~~~~~~~~~~~~~
   if(Modernizr.inputtypes.date){
-    $('.datepicker-no').hide();
+    $('.datepicker-yes').show();
   } else {
-    $('.datepicker-yes').hide();
+    $('.datepicker-no').show();
     $('#update-form').on('submit',function(e){
       e.preventDefault();
       var month=this.month.value;
