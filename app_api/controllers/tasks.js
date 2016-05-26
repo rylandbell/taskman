@@ -16,13 +16,13 @@ var getOwnerData = function(req, res, callback) {
       .findOne({ _id : req.payload._id })
       .exec(function(err, user) {
         if (!user) {
-          sendJSONresponse(res, 404, {
+          sendJsonResponse(res, 404, {
             "message": "User not found"
           });
           return;
         } else if (err) {
           console.log(err);
-          sendJSONresponse(res, 404, err);
+          sendJsonResponse(res, 404, err);
           return;
         }
         console.log(user);
@@ -30,7 +30,7 @@ var getOwnerData = function(req, res, callback) {
       });
 
   } else {
-    sendJSONresponse(res, 404, {
+    sendJsonResponse(res, 404, {
       "message": "User not found"
     });
     return;
