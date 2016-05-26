@@ -23,6 +23,15 @@ var _showError = function (req, res, statusCode){
   })
 }
 
+var oneWeek = function(){
+  var now = new Date();
+  var time = now.getTime();
+  time += 3600 * 24 * 7 * 1000;
+  now.setTime(time);
+  var nowString = now.toUTCString;
+  return now;
+}
+
 //--------Instructions to handle HTTP calls-------:
 
 /* GET task list page*/
@@ -238,8 +247,10 @@ module.exports.submitCredentials = function(req, res, next) {
     qs: {}
   };
   request(requestOptions, function (err, response, body){
+    var cookieOptions = {};
+    cookieOptions.maxAge = 1000*3600*24*7;
     if(response.statusCode===200){
-      res.cookie('token',response.body.token);
+      res.cookie('token', response.body.token, cookieOptions);
       res.redirect('/');
     } else if (response.statusCode===400||response.statusCode===401){
       renderLoginView(req, res, response.body);
