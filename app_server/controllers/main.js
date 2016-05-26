@@ -28,6 +28,10 @@ var _showError = function (req, res, statusCode){
 /* GET task list page*/
 var renderListView = function (req, res, responseBody, completedBool){ 
   var message;
+  var userName;
+  if(responseBody.owner){
+    userName = responseBody.owner.name;
+  }
   if(!(responseBody.tasks instanceof Array)){
     message = "API lookup error";
     responseBody = [];
@@ -36,16 +40,15 @@ var renderListView = function (req, res, responseBody, completedBool){
       message = "No tasks found.";
     }
   }
-  console.log("OWNER NAME: "+responseBody.owner.name);
   res.render('list', {
     title: 'List View',
     tasks: responseBody.tasks,
     show_completed: completedBool,
     message: message,
     error: req.query.err,
-    userName: responseBody.owner.name
+    userName: userName
   });
-};
+}
 
 module.exports.list = function(req, res, next) {
   var path = '/api/tasks';
@@ -71,13 +74,17 @@ module.exports.list = function(req, res, next) {
 	
 /* GET task details */
 var renderDetailsView = function (req, res, body){
+  var userName;
+  if(body.owner){
+    userName = body.owner.name;
+  }
   var message;
   res.render('details', {
     title: 'Details View',
     task: body.task,
     message: message,
     error: req.query.err,
-    userName: body.owner.name
+    userName: userName
   });
 }
 
