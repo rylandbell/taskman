@@ -19,6 +19,11 @@ html
         // Collect the nav links, forms, and other content for toggling
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='/login') Sign In
+            li#logout
+              a(href='/') Sign Out
     .container
       -if(error==='validation')
         .alert.alert-danger 
@@ -34,5 +39,6 @@ html
     script(src='/javascripts/jquery-1.11.1.min.js')
     script(src='/bootstrap/js/bootstrap.min.js')
     script(src='/javascripts/modernizr.js')
+    script(src='/javascripts/auth.js')
     block scripts
 

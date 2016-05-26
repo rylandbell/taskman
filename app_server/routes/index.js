@@ -9,6 +9,12 @@ router.get('/', ctrlMain.list);
 /* GET task details page */
 router.get('/details/:taskid', ctrlMain.details);
 
+// GET login page
+router.get('/login', ctrlMain.login);
+
+// POST credentials from login page
+router.post('/login', ctrlMain.submitCredentials)
+
 // POST new task (from list view)
 router.post('/create', ctrlMain.newTask);
 

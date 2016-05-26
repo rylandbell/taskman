@@ -181,18 +181,55 @@ module.exports.updateCompleted = function (req, res, next){
 
 // POST call to DELETE all completed tasks
 module.exports.deleteCompleted = function (req, res, next){
-  var path = '/api/tasks/';
+  var path = '/api/tasks';
   var requestOptions = {
     url: apiOptions.server + path,
     method: "DELETE",
     json: req.cookies,
     qs: {}
   };
-    request(requestOptions, function (err, response, body){
-      if(response.statusCode===204){
-        res.redirect('/');
-      } else {
-        _showError(req, res, response.statusCode);
-      }
-    });
+  request(requestOptions, function (err, response, body){
+    if(response.statusCode===204){
+      res.redirect('/');
+    } else {
+      _showError(req, res, response.statusCode);
+    }
+  });
 };
+
+// GET login page
+var renderLoginView = function (req, res, body){
+  var message;
+  if(body){
+    message = body.message;
+  }
+  res.render('login', { 
+    title: 'Login Page',
+    message: message
+  });
+}
+
+module.exports.login = function(req, res, next) {
+  renderLoginView (req, res);
+};
+
+// POST credentials from login page
+module.exports.submitCredentials = function(req, res, next) {
+  var path = '/api/login';
+  var requestOptions = {
+    url: apiOptions.server + path,
+    method: "POST",
+    json: req.body,
+    qs: {}
+  };
+  request(requestOptions, function (err, response, body){
+    if(response.statusCode===200){
+      res.cookie('token',response.body.token);
+      res.redirect('/');
+    } else if (response.statusCode===400||response.statusCode===401){
+      renderLoginView(req, res, response.body);
+    } else {
+      _showError(req, res, response.statusCode);
+    }
+  });
+}
