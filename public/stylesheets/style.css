@@ -66,6 +66,10 @@ input[type='number'] {
 	display: none;
 }
 
+button.success-view {
+	margin-right: 4px;
+}
+
 .invisible {
 	display: none;
 }

@@ -3,7 +3,6 @@ var gracefulShutdown;
 var dbURI = 'mongodb://localhost/taskman';
 if (process.env.NODE_ENV === 'production') {
     dbURI = process.env.MONGOLAB_URI;
-    // dbURI = 'mongodb://ryland:scarybbq1@ds015892.mlab.com:15892/heroku_jpkc5kc9';
 }
 
 mongoose.connect(dbURI);
