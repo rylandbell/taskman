@@ -25,5 +25,10 @@
     "passport-local": "^1.0.0",
     "request": "^2.71.0",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-puglint": "^0.1.3"
   }
 }

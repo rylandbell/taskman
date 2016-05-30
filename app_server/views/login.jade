@@ -1,26 +1,39 @@
 extends layout
 
 block content
-  h4 Log In
-  form.form(action="/login", method="post", role="form")
-    .form-group
-      label Username: &nbsp;
-      input.form-control(type="text" name="username")
-    .form-group
-      label Password: &nbsp;
-      input.form-control(type="password" name="password" value="password")
-    button.btn.btn-default(type='submit') Submit
-  h4 Create New Account
-  form.form(action="/register", method="post", role="form")
-    .form-group
-      label Username: &nbsp;
-      input.form-control(type="text" name="username")
-    .form-group
-      label Display Name: &nbsp;
-      input.form-control(type="text" name="name")
-    .form-group
-      label Password: &nbsp;
-      input.form-control(type="password" name="password")
-    button.btn.btn-default(type='submit') Submit
+  //- Auto sign-out users, even if they didn't navigate to this page via a sign-out link:
+  script.
+    document.cookie='token' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  .row
+    .col-xs-12.col-sm-6
+      .panel.panel-primary
+        .panel-heading
+          .panel-title  Log In
+        .panel-body
+          form.form(action='/login', method='post', role='form')
+            .form-group
+              label Username: &nbsp;
+              input.form-control(type='text' name='username' autocomplete='off')
+            .form-group
+              label Password: &nbsp;
+              input.form-control(type='password' name='password' value='password')
+            button.btn.btn-default(type='submit') Submit
+    .col-xs-12.col-sm-6
+      .panel.panel-primary
+        .panel-heading
+          .panel-title Create New Account
+        .panel-body
+          form.form(action='/register', method='post', role='form')
+            .form-group
+              label Username: &nbsp;
+              input.form-control(type='text' name='username' autocomplete='off')
+            .form-group
+              label Display Name: &nbsp;
+              input.form-control(type='text' name='name' autocomplete='off')
+            .form-group
+              label Password: &nbsp;
+              input.form-control(type='password' name='password')
+            button.btn.btn-default(type='submit') Submit
   -if(message)
+    br
     .alert.alert-warning= message

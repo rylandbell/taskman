@@ -6,7 +6,7 @@ var userModel = mongoose.model('User');
 var sendJsonResponse = function (res, status, content){
 	res.status(status);
 	res.json(content);
-}
+};
 
 //helper function for getting author data from JWT
 var getOwnerData = function(req, res, callback) {
@@ -43,7 +43,7 @@ var getOwnerData = function(req, res, callback) {
 /* GET list of tasks (optionally filters completed tasks) */
 module.exports.tasksList = function (req, res) {
 	getOwnerData(req, res, function (req, res, owner) {
-		var responseBody={}
+		var responseBody={};
 	  	//query.show_completed is 0 or 1 as a string, so convert to Boolean:
 	  	var completedBool = Boolean(parseInt(req.query.show_completed));
 	  	//Unless told to show completed tasks, only return items with a completed value of false:
@@ -154,10 +154,10 @@ module.exports.tasksUpdateOne = function (req, res) {
 		      	sendJsonResponse(res, 404, {
 		      		"message": "User not authorized to perform that action"
 		      	});
-		      	return
+		      	return;
 		      }
 
-		      for (key in req.body){
+		      for (var key in req.body){
 		      	task[key] = req.body[key];
 			  }
 		      task.save(function(err, task) {
@@ -178,7 +178,7 @@ module.exports.tasksDeleteCompleted = function (req, res) {
 		var filter={
 			'completed': true,
 			'ownerId': owner._id
-			}
+			};
 		taskModel
 		  .find(filter)
 		  .remove(function(err) {

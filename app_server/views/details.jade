@@ -3,13 +3,13 @@ extends layout
 
 block content
   -if(message)
-        .container
-          .row
-            .col-xs-4.pagination-centered
-              .alert.alert-warning
-                h4
-                  .glyphicon.glyphicon-exclamation-sign 
-                  |&nbsp;&nbsp;#{message}
+    .container
+      .row
+        .col-xs-4.pagination-centered
+          .alert.alert-warning
+            h4
+              .glyphicon.glyphicon-exclamation-sign 
+              |&nbsp;&nbsp;#{message}
   .container
     .row
       .col-xs-12.col-sm-6
@@ -25,7 +25,7 @@ block content
               .row
                 .form-group
                   label Task Name
-                  input.form-control(type='text' value='#{task.name}' name='name')
+                  input.form-control(type='text' value='#{task.name}' name='name' autocomplete='off')
                 .form-group
                   label Completed?
                   input.form-control#completed(type='checkbox' checked=task.completed name='completed')
@@ -60,7 +60,7 @@ block content
                       input.form-control(type='date' name='dateDue')
                 .form-group
                   label Details 
-                  textarea.form-control(rows='10' name='details')
+                  textarea.form-control(rows='10' name='details' autocomplete='off')
                     |#{task.details}
                 button.btn.btn-primary.pull-right
                   .i.glyphicon.glyphicon-check
@@ -69,7 +69,6 @@ block content
                 button.btn.btn-primary.btn(type='button', data-toggle='modal', data-target='#myModal')#cal-init
                   | Send to Google Calendar
       .col-xs-12.col-sm-6
-
 
   // Modal
   .modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')#myModal

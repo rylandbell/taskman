@@ -5,7 +5,7 @@ var User = mongoose.model('User');
 var sendJSONresponse = function(res, status, content){
 	res.status(status);
 	res.json(content);
-}
+};
 
 module.exports.register = function(req, res) {
   if(!req.body.name || !req.body.username || !req.body.password) {

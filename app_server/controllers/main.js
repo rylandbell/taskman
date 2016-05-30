@@ -20,8 +20,8 @@ var _showError = function (req, res, statusCode){
   res.render('generic-text', {
     title: title,
     content: content
-  })
-}
+  });
+};
 
 var oneWeek = function(){
   var now = new Date();
@@ -30,7 +30,7 @@ var oneWeek = function(){
   now.setTime(time);
   var nowString = now.toUTCString;
   return now;
-}
+};
 
 //--------Instructions to handle HTTP calls-------:
 
@@ -57,7 +57,7 @@ var renderListView = function (req, res, responseBody, completedBool){
     error: req.query.err,
     userName: userName
   });
-}
+};
 
 module.exports.list = function(req, res, next) {
   var path = '/api/tasks';
@@ -78,7 +78,7 @@ module.exports.list = function(req, res, next) {
     //sends show_completed to render function, which displays correct buttons (Show vs Hide Completed):
     //renderListView has its own error handling, so I call it regardless:
     renderListView(req,res,body,completedBool);
-  })
+  });
 };
 	
 /* GET task details */
@@ -87,6 +87,7 @@ var renderDetailsView = function (req, res, body){
   if(body.owner){
     userName = body.owner.name;
   }
+  body.task.dateAdded=body.task.dateAdded.substring(0,10);
   var message;
   res.render('details', {
     title: 'Details View',
@@ -95,7 +96,7 @@ var renderDetailsView = function (req, res, body){
     error: req.query.err,
     userName: userName
   });
-}
+};
 
 module.exports.details = function(req, res, next) {
   var path = '/api/tasks/'+req.params.taskid;
@@ -119,7 +120,7 @@ module.exports.details = function(req, res, next) {
     } else {
       _showError(req, res, response.statusCode);
     }
-  })
+  });
 };
 
 // POST new task from list view 
@@ -179,7 +180,7 @@ module.exports.updateTask = function(req, res, next){
       }
     });
   }
-}
+};
 
 // POST call to mark a task completed from List View (PUT in API)
 module.exports.updateCompleted = function (req, res, next){
@@ -231,7 +232,7 @@ var renderLoginView = function (req, res, body){
     title: 'Login Page',
     message: message
   });
-}
+};
 
 module.exports.login = function(req, res, next) {
   renderLoginView (req, res);
@@ -258,7 +259,7 @@ module.exports.submitCredentials = function(req, res, next) {
       _showError(req, res, response.statusCode);
     }
   });
-}
+};
 
 // POST register new user
 module.exports.registerNew = function(req, res, next) {
@@ -281,4 +282,4 @@ module.exports.registerNew = function(req, res, next) {
       _showError(req, res, response.statusCode);
     }
   });
-}
+};

@@ -11,12 +11,13 @@ router.get('/details/:taskid', ctrlMain.details);
 
 // GET login page
 router.get('/login', ctrlMain.login);
+router.get('/register', ctrlMain.login);
 
 // POST credentials from login page
-router.post('/login', ctrlMain.submitCredentials)
+router.post('/login', ctrlMain.submitCredentials);
 
 // POST register new user
-router.post('/register', ctrlMain.registerNew)
+router.post('/register', ctrlMain.registerNew);
 
 // POST new task (from list view)
 router.post('/create', ctrlMain.newTask);

@@ -8,7 +8,7 @@ block content
         .panel-heading
           .panel-title List View
         .panel-body
-          table.table
+          table.table.table-striped.table-hover
             thead
               tr
                 th#check Finished?
@@ -31,21 +31,20 @@ block content
                 form(action="/", method="post", role="form").checkforname#newtaskform
                   td
                   td
-                    input(type='text' placeholder='New Task' name="name" autocomplete='off' autofocus)#newtask
+                    input(type='text' placeholder='New Task' name="name" maxlength="140" autocomplete='off' autofocus)#newtask
                   td 
                     button.btn-primary.pull-right Add New Task
           -if(!show_completed)
-            form(action="/", method="get", role="form")
+            form(action="/", method="get", role="form").pull-left
               button(name='show_completed', value=1).btn-primary Show Completed Tasks
           -else
-            form(action="/", method="get", role="form")#hide-completed
+            form(action="/", method="get", role="form").pull-left#hide-completed
               button(name='show_completed', value=0).btn-primary Hide Completed Tasks
-            | <br />
-            form(action="/deletecompleted", method="post", role="form")
-              button.btn-danger.pull-right
+            //- | <br />
+            form(action="/deletecompleted", method="post", role="form").pull-right
+              button.btn-danger
                 .i.glyphicon.glyphicon-trash
                 | &nbsp;Delete Completed Tasks
-
       -if(message)
         .container
           .row
@@ -54,5 +53,6 @@ block content
                 h4
                   .glyphicon.glyphicon-exclamation-sign 
                   |&nbsp;&nbsp;#{message}
+
 block scripts
   script(src='/javascripts/listview.js') 
