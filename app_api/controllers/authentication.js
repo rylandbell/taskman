@@ -19,7 +19,7 @@ var addIntroTask = function(ownerId){
       console.log(err);
     }
   });
-} 
+}; 
 
 module.exports.register = function(req, res) {
   if(!req.body.name || !req.body.username || !req.body.password) {

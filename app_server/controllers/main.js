@@ -23,15 +23,6 @@ var _showError = function (req, res, statusCode){
   });
 };
 
-var oneWeek = function(){
-  var now = new Date();
-  var time = now.getTime();
-  time += 3600 * 24 * 7 * 1000;
-  now.setTime(time);
-  var nowString = now.toUTCString;
-  return now;
-};
-
 //--------Instructions to handle HTTP calls-------:
 
 /* GET task list page*/
@@ -227,11 +218,13 @@ var renderLoginView = function (req, res, body){
   var message;
   if(body){
     message = body.message;
-  }
-  res.render('login', { 
-    title: 'Login Page',
-    message: message
-  });
+  }  
+  res
+    .clearCookie('token')
+    .render('login', { 
+      title: 'Login Page',
+      message: message
+    });
 };
 
 module.exports.login = function(req, res, next) {
