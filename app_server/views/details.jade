@@ -35,17 +35,17 @@ block content
                     =task.dateAdded
                 .form-group
                   label Due Date
-                  .datepicker-no.form-inline 
+                  .datepicker-no.form-inline#due-date-polyfill
                     -if (task.dateDue)
                       -var monthDue = new Date(task.dateDue).getUTCMonth()+1;
                       -var datenumberDue = new Date(task.dateDue).getUTCDate();
                       -var yearDue = new Date(task.dateDue).getUTCFullYear();
                         | Month:
-                        input.form-control.month-picker(type='number' min=1 max=12 value=monthDue name='month')
+                        input.form-control.month-picker(type='number' min=1 max=12 value=monthDue name='month')#due-month
                         | Day:
-                        input.form-control.date-number(type='number' min=1 max=31 value=datenumberDue name='datenumber')
+                        input.form-control.date-number(type='number' min=1 max=31 value=datenumberDue name='datenumber')#due-date-number
                         | Year:
-                        input.form-control(type='number' min=2016 max=2025 value=yearDue name='year')
+                        input.form-control(type='number' min=2016 max=2025 value=yearDue name='year')#due-year
                     -else
                       | Month:
                       input.form-control.month-picker(type='number' min=1 max=12 value=1 name='month')
@@ -55,9 +55,9 @@ block content
                       input.form-control(type='number' min=2016 max=2025 value=2016 name='year')
                   .datepicker-yes
                     -if (task.dateDue)
-                      input.form-control(type='date' value='#{task.dateDue}' name='dateDue')
+                      input.form-control#due-date-picker(type='date' value='#{task.dateDue}' name='dateDue')
                     -else
-                      input.form-control(type='date' name='dateDue')
+                      input.form-control#due-date-picker(type='date' name='dateDue')
                 .form-group
                   label Details 
                   textarea.form-control(rows='10' name='details' autocomplete='off')
@@ -96,7 +96,7 @@ block content
                 label Event Date
                 .datepicker-yes
                   -if (task.dateDue)
-                    input.form-control(type='date' value='#{task.dateDue}' name='date')
+                    input.form-control#event-date(type='date' value='#{task.dateDue}' name='date')
                   -else
                     -var today = new Date();
                     -var thisYear = today.getFullYear();
@@ -104,18 +104,18 @@ block content
                     -if (today.getMonth()<9){thisMonth = '0'+thisMonth};
                     -var thisDay = today.getDate();
                     -var dateString = thisYear+'-'+thisMonth+'-'+thisDay;
-                      input.form-control(type='date' name='date' value='#{dateString}')
+                      input.form-control#event-date(type='date' name='date' value='#{dateString}')
                 .datepicker-no.form-inline 
                   -if (task.dateDue)
                     -var monthDue = new Date(task.dateDue).getUTCMonth()+1;
                     -var datenumberDue = new Date(task.dateDue).getUTCDate();
                     -var yearDue = new Date(task.dateDue).getUTCFullYear();
                       | Month:
-                      input.form-control.month-picker(type='number' min=1 max=12 value=monthDue name='month')
+                      input.form-control.month-picker#event-month(type='number' min=1 max=12 value=monthDue name='month')
                       | Day:
-                      input.form-control.date-number(type='number' min=1 max=31 value=datenumberDue name='datenumber')
+                      input.form-control.date-number#event-date-number(type='number' min=1 max=31 value=datenumberDue name='datenumber')
                       | Year:
-                      input.form-control(type='number' min=2016 max=2025 value=yearDue name='year')
+                      input.form-control#event-year(type='number' min=2016 max=2025 value=yearDue name='year')
                   -else
                     | Month:
                     input.form-control.month-picker(type='number' min=1 max=12 value=1 name='month')

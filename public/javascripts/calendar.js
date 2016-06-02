@@ -131,6 +131,18 @@ $('document').ready(function(){
     goog.checkAuth(true);
   });
 
+  //send-to-google modal should reflect adds/updates to due date elsewhere on the page
+  $('#due-date-picker').on('change', function(){
+    var dueDate = $(this).val();
+    $('#event-date').val(dueDate);
+  });
+
+  $('#due-date-polyfill').on('change', function(){
+    $('#event-month').val($('#due-month').val());
+    $('#event-date-number').val($('#due-date-number').val());
+    $('#event-year').val($('#due-year').val());
+  });
+
   //take an unauthorized user to the Google auth page
   $('#auth-init').on('click',function(){
     goog.checkAuth(false);
@@ -144,7 +156,7 @@ $('document').ready(function(){
     goog.addEvent(myEvent, successfulAdd, failedAdd);
   });
 
-  //mark task completed at user request
+  //mark task completed after sending to Google, at user request
   $('#mark-completed').on('click',function(){
     $('#completed').prop('checked',true);
     $('#gotolist').prop('checked',true);

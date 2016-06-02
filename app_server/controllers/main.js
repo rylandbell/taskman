@@ -79,6 +79,9 @@ var renderDetailsView = function (req, res, body){
     userName = body.owner.name;
   }
   body.task.dateAdded=body.task.dateAdded.substring(0,10);
+  if(body.task.dateDue){
+    body.task.dateDue=body.task.dateDue.substring(0,10);
+  }
   var message;
   res.render('details', {
     title: 'Details View',
