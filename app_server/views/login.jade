@@ -20,7 +20,7 @@ block content
         .panel-heading
           .panel-title Create New Account
         .panel-body
-          form.form(action='/register', method='post', role='form')
+          form#register-form.form(action='/register', method='post', role='form')
             .form-group
               label Username: &nbsp;
               input.form-control(type='text' name='username' autocomplete='off')
@@ -31,6 +31,11 @@ block content
               label Password: &nbsp;
               input.form-control(type='password' name='password')
             button.btn.btn-default(type='submit') Submit
-  -if(message)
     br
+  -if(message)
     .alert.alert-warning= message
+  -else
+    #message-box.alert.alert-warning.invisible See me?
+
+block scripts
+  script(src='/javascripts/login.js')
