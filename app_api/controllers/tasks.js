@@ -85,7 +85,7 @@ module.exports.tasksReadOne = function (req, res) {
 		        sendJsonResponse(res, 404, err);
 		        return;
 		      }
-		      if (!task.ownerId || task.ownerId!=owner._id){
+		      if (!task.ownerId || task.ownerId !== owner._id.toString()){
 		      	console.log("Wrong owner!");
 		      	sendJsonResponse(res, 404, {
 		      		"message": "User not authorized to perform that action"
@@ -149,7 +149,7 @@ module.exports.tasksUpdateOne = function (req, res) {
 		        sendJsonResponse(res, 400, err);
 		        return;
 		      }
-		      if (!task.ownerId || task.ownerId!=owner._id){
+		      if (!task.ownerId || task.ownerId !== owner._id){
 		      	console.log("Wrong owner!");
 		      	sendJsonResponse(res, 404, {
 		      		"message": "User not authorized to perform that action"
@@ -158,7 +158,9 @@ module.exports.tasksUpdateOne = function (req, res) {
 		      }
 
 		      for (var key in req.body){
-		      	task[key] = req.body[key];
+		      	if(task.hasOwnProperty(key)){
+		      		task[key] = req.body[key];
+		      	}
 			  }
 		      task.save(function(err, task) {
 		        if (err) {

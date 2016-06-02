@@ -10,14 +10,32 @@ var sendJsonResponse = function(res, status, content){
 
 //helper function to set up new user with instructions:
 var addIntroTask = function(ownerId){
-  var introTask = new Task();
-  introTask.name = "My First Task";
-  introTask.details = "Edit details, or send it to Google Calendar.";
-  introTask.ownerId = ownerId;
-  introTask.save(function(err, task) {
-    if (err) {
-      console.log(err);
+  var introTask;
+  var introTasks = [
+    {
+      name: "Mark a task completed using the checkbox on the left.",
+      details: ""
+    },
+    {
+      name: "Add a new task using the input field below.",
+      details: ""
+    },
+    {
+      name: "Click on \"View/Edit Details\" to learn about more features, including sending a task to your Google calendar.",
+      details: "figure it out"
     }
+  ];
+
+  introTasks.forEach(function(task){
+    introTask = new Task();
+    introTask.name = task.name;
+    introTask.details = task.details;
+    introTask.ownerId = ownerId;
+    introTask.save(function(err, task) {
+      if (err) {
+        console.log(err);
+      }
+    });
   });
 }; 
 

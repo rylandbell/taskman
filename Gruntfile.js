@@ -6,9 +6,45 @@ module.exports = function(grunt){
 	//configure plugins
 	grunt.initConfig({
 		jshint: {
+			options: {
+				//environments:
+				browser: true,
+				jquery: true,
+				//other options:
+				bitwise: true,
+				curly: true,
+				eqeqeq: true,
+				esversion: 5,
+				forin: true,
+				globals: {
+					Modernizr: false,
+					gapi: false,
+					document: false
+				},
+				latedef: "nofunc",
+				nocomma: true,
+				nonbsp: true,
+				singleGroups: true,
+				undef: true,
+				unused: 'vars'
+			},
 			frontend: ['public/javascripts/*.js'],
-			server: ['app_server/**/*.js'],
-			api: ['app_api/**/*.js']
+			server: {
+				options: {
+					node: true
+				},
+				files: {
+					src: ['app_server/**/*.js']
+				}
+			},
+			api: {
+				options: {
+					node: true
+				},
+				files: {
+					src: ['app_api/**/*.js']
+				}
+			}
 		},
 		puglint: {
 			views: {
