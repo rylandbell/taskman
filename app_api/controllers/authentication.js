@@ -1,44 +1,56 @@
 var passport = require('passport');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var Task = mongoose.model('Task');
 
-var sendJSONresponse = function(res, status, content){
+var sendJsonResponse = function(res, status, content){
 	res.status(status);
 	res.json(content);
 };
 
+//helper function to set up new user with instructions:
+var addIntroTask = function(ownerId){
+  var introTask = new Task();
+  introTask.name = "My First Task";
+  introTask.details = "Edit details, or send it to Google Calendar.";
+  introTask.ownerId = ownerId;
+  introTask.save(function(err, task) {
+    if (err) {
+      console.log(err);
+    }
+  });
+} 
+
 module.exports.register = function(req, res) {
   if(!req.body.name || !req.body.username || !req.body.password) {
-    sendJSONresponse(res, 400, {
+    sendJsonResponse(res, 400, {
       "message": "All fields required"
     });
     return;
   }
 
   var user = new User();
-
   user.name = req.body.name;
   user.username = req.body.username;
-
   user.setPassword(req.body.password);
 
-  user.save(function(err) {
+  user.save(function(err,user) {
     var token;
     if (err) {
-      sendJSONresponse(res, 404, err);
+      sendJsonResponse(res, 404, err);
     } else {
       token = user.generateJwt();
-      sendJSONresponse(res, 200, {
+      sendJsonResponse(res, 200, {
         "token" : token
       });
+      addIntroTask(user._id);
     }
   });
-
 };
 
 module.exports.login = function(req, res) {
   if(!req.body.username || !req.body.password) {
-    sendJSONresponse(res, 400, {
+    sendJsonResponse(res, 400, {
       "message": "All fields required"
     });
     return;
@@ -48,17 +60,17 @@ module.exports.login = function(req, res) {
     var token;
 
     if (err) {
-      sendJSONresponse(res, 404, err);
+      sendJsonResponse(res, 404, err);
       return;
     }
 
     if(user){
       token = user.generateJwt();
-      sendJSONresponse(res, 200, {
+      sendJsonResponse(res, 200, {
         "token" : token
       });
     } else {
-      sendJSONresponse(res, 401, info);
+      sendJsonResponse(res, 401, info);
     }
   })(req, res);
 

@@ -272,7 +272,7 @@ module.exports.registerNew = function(req, res, next) {
   };
   request(requestOptions, function (err, response, body){
     var cookieOptions = {};
-    cookieOptions.maxAge = 1000*3600*24*7;
+    cookieOptions.maxAge = 1000*3600*24;
     if(response.statusCode===200){
       res.cookie('token', response.body.token, cookieOptions);
       res.redirect('/');
