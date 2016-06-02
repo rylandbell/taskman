@@ -37,7 +37,13 @@ module.exports.register = function(req, res) {
   user.save(function(err,user) {
     var token;
     if (err) {
-      sendJsonResponse(res, 404, err);
+      if (err.code===11000){
+        sendJsonResponse(res, 400, {
+          "message": "That user name is already taken. Try something else."
+        });
+      } else {
+        sendJsonResponse(res, 404, err);
+      }
     } else {
       token = user.generateJwt();
       sendJsonResponse(res, 200, {
