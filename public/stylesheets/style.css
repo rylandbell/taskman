@@ -18,6 +18,14 @@ body {
 	border-radius: 0 ;
 }
 
+#logout > a {
+	color: black;
+}
+
+#logout:hover > a {
+	color: white;
+}
+
 html.waiting, html.waiting * { 
 	cursor: wait !important; 
 }
@@ -88,4 +96,9 @@ button.success-view {
 
 .table-link {
 	cursor: pointer;
+}
+
+.table-hover > tbody > tr.form-row:hover > td,
+.form-row > td {
+    background-color: white;
 }
