@@ -86,9 +86,15 @@ $('document').ready(function () {
     myAjax.addNew(taskName);
   });
 
+  $('table').on('click', '.table-link', function (e) {
+    var taskId = $(this).attr('id');
+    window.document.location = '/details/' + taskId;
+  });
+
   //Selecting .completed-box this way allows the listener to 'hear' clicks from dynamically added elements
-  $('table').on('click', '.completed-box', function () {
+  $('table').on('click', '.completed-box', function (e) {
     myAjax.markComplete(this.value, this.checked);
+    e.stopPropagation();
   });
 
 });

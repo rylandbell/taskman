@@ -33,12 +33,6 @@ input[type='number'] {
 	padding: 0 15px;	
 }
 
-.glyphicon-fire {
-	color: darkred;
-	position: absolute;
-	top: 200px;
-}
-
 .form-row {
 	border-top: 1px solid black;
 	border-bottom: 1px solid black;
@@ -76,4 +70,8 @@ button.success-view {
 
 .datepicker-yes, .datepicker-no {
 	display: none;
+}
+
+.table-link {
+	cursor: pointer;
 }

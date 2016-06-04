@@ -21,8 +21,8 @@ var addIntroTask = function (ownerId) {
       details: ''
     },
     {
-      name: 'Click on "View/Edit Details" to learn about more features, including sending a task to your Google calendar.',
-      details: 'figure it out'
+      name: 'Click on a task\'s row to view more features, including sending a task to your Google calendar.',
+      details: 'Welcome to the details view. Have a look around.'
     }
   ];
 

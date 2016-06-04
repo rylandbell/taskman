@@ -4,9 +4,8 @@ extends layout
 block content
   .container
     .row
+      h3 List View
       .panel.panel-primary
-        .panel-heading
-          .panel-title List View
         .panel-body
           table.table.table-striped.table-hover
             thead
@@ -19,7 +18,7 @@ block content
               each task in tasks
                 -var contextualClass=''
                 -if(task.completed){contextualClass='finished'}
-                tr(class=contextualClass id='#{task._id}')
+                tr(class=contextualClass id='#{task._id}').table-link
                   td
                     form(action="/updatecompleted/", method="post", role="form")
                       input(type='checkbox', checked=task.completed, name='box_name' value="#{task._id}").completed-box
