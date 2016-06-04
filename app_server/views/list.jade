@@ -2,48 +2,47 @@ include _includes/helper_functions.jade
 extends layout
 
 block content
-  .container
-    .row
-      h3 List View
-      .panel.panel-primary
-        .panel-body
-          table.table.table-striped.table-hover
-            thead
-              tr
-                th#check Finished?
-                th#taskname Task Name
-                th#details
-                  .pull-right Details
-            tbody
-              each task in tasks
-                -var contextualClass=''
-                -if(task.completed){contextualClass='finished'}
-                tr(class=contextualClass id='#{task._id}').table-link
-                  td
-                    form(action="/updatecompleted/", method="post", role="form")
-                      input(type='checkbox', checked=task.completed, name='box_name' value="#{task._id}").completed-box
-                  td.task-name= task.name
-                  td
-                    a(href="/details/"+'#{task._id}')
-                      .pull-right View/Edit Details
-              tr.form-row
-                form(action="/", method="post", role="form").checkforname#newtaskform
-                  td
-                  td
-                    input(type='text' placeholder='New Task' name="name" maxlength="140" autocomplete='off' autofocus)#newtask
-                  td 
-                    button.btn-primary.pull-right Add New Task
-          -if(!show_completed)
-            form(action="/", method="get", role="form").pull-left
-              button(name='show_completed', value=1).btn-primary Show Completed Tasks
-          -else
-            form(action="/", method="get", role="form").pull-left#hide-completed
-              button(name='show_completed', value=0).btn-primary Hide Completed Tasks
-            //- | <br />
-            form(action="/deletecompleted", method="post", role="form").pull-right
-              button.btn-danger
-                .i.glyphicon.glyphicon-trash
-                | &nbsp;Delete Completed Tasks
+  .row
+    h3 List View
+    .panel.panel-primary
+      .panel-body
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th#check Finished?
+              th#taskname Task Name
+              th#details
+                .pull-right Details
+          tbody
+            each task in tasks
+              -var contextualClass=''
+              -if(task.completed){contextualClass='finished'}
+              tr(class=contextualClass id='#{task._id}').table-link
+                td
+                  form(action="/updatecompleted/", method="post", role="form")
+                    input(type='checkbox', checked=task.completed, name='box_name' value="#{task._id}").completed-box
+                td.task-name= task.name
+                td
+                  a(href="/details/"+'#{task._id}')
+                    .pull-right View/Edit Details
+            tr.form-row
+              form(action="/", method="post", role="form").checkforname#newtaskform
+                td
+                td
+                  input(type='text' placeholder='New Task' name="name" maxlength="140" autocomplete='off' autofocus)#newtask
+                td 
+                  button.btn-primary.pull-right Add New Task
+        -if(!show_completed)
+          form(action="/", method="get", role="form").pull-left
+            button(name='show_completed', value=1).btn-primary Show Completed Tasks
+        -else
+          form(action="/", method="get", role="form").pull-left#hide-completed
+            button(name='show_completed', value=0).btn-primary Hide Completed Tasks
+          //- | <br />
+          form(action="/deletecompleted", method="post", role="form").pull-right
+            button.btn-danger
+              .i.glyphicon.glyphicon-trash
+              | &nbsp;Delete Completed Tasks
       -if(message)
         .container
           .row

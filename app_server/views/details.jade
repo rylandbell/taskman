@@ -10,65 +10,64 @@ block content
             h4
               .glyphicon.glyphicon-exclamation-sign 
               |&nbsp;&nbsp;#{message}
-  .container
-    .row
-      .col-xs-12.col-sm-6
-        br
-        br
-        .panel.panel-primary
-          .panel-heading
-            .panel-title 
-              h4 Update Info
-          .panel-body
-            form(action="/"+"#{task._id}", method="post", role="form").panel-form.checkforname#update-form
-              input(type='checkbox' name='gotolist' style='display: none')#gotolist
-              .row
-                .form-group
-                  label Task Name
-                  input.form-control(type='text' value='#{task.name}' name='name' autocomplete='off')
-                .form-group
-                  label Completed?
-                  input.form-control#completed(type='checkbox' checked=task.completed name='completed')
-                .form-group
-                  label Date Added
-                  p.form-control-static
-                    =task.dateAdded
-                .form-group
-                  label Due Date
-                  .datepicker-no.form-inline#due-date-polyfill
-                    -if (task.dateDue)
-                      -var monthDue = new Date(task.dateDue).getUTCMonth()+1;
-                      -var datenumberDue = new Date(task.dateDue).getUTCDate();
-                      -var yearDue = new Date(task.dateDue).getUTCFullYear();
-                        | Month:
-                        input.form-control.month-picker(type='number' min=1 max=12 value=monthDue name='month')#due-month
-                        | Day:
-                        input.form-control.date-number(type='number' min=1 max=31 value=datenumberDue name='datenumber')#due-date-number
-                        | Year:
-                        input.form-control(type='number' min=2016 max=2025 value=yearDue name='year')#due-year
-                    -else
+  .row
+    .col-xs-12.col-sm-6
+      br
+      br
+      .panel.panel-primary
+        .panel-heading
+          .panel-title 
+            h4 Update Info
+        .panel-body
+          form(action="/"+"#{task._id}", method="post", role="form").panel-form.checkforname#update-form
+            input(type='checkbox' name='gotolist' style='display: none')#gotolist
+            .row
+              .form-group
+                label Task Name
+                input.form-control(type='text' value='#{task.name}' name='name' autocomplete='off')
+              .form-group
+                label Completed?
+                input.form-control#completed(type='checkbox' checked=task.completed name='completed')
+              .form-group
+                label Date Added
+                p.form-control-static
+                  =task.dateAdded
+              .form-group
+                label Due Date
+                .datepicker-no.form-inline#due-date-polyfill
+                  -if (task.dateDue)
+                    -var monthDue = new Date(task.dateDue).getUTCMonth()+1;
+                    -var datenumberDue = new Date(task.dateDue).getUTCDate();
+                    -var yearDue = new Date(task.dateDue).getUTCFullYear();
                       | Month:
-                      input.form-control.month-picker(type='number' min=1 max=12 value=1 name='month')
+                      input.form-control.month-picker(type='number' min=1 max=12 value=monthDue name='month')#due-month
                       | Day:
-                      input.form-control.date-number(type='number' min=1 max=31 value=1 name='datenumber')
+                      input.form-control.date-number(type='number' min=1 max=31 value=datenumberDue name='datenumber')#due-date-number
                       | Year:
-                      input.form-control(type='number' min=2016 max=2025 value=2016 name='year')
-                  .datepicker-yes
-                    -if (task.dateDue)
-                      input.form-control#due-date-picker(type='date' value='#{task.dateDue}' name='dateDue')
-                    -else
-                      input.form-control#due-date-picker(type='date' name='dateDue')
-                .form-group
-                  label Details 
-                  textarea.form-control(rows='10' name='details' autocomplete='off')
-                    |#{task.details}
-                button.btn.btn-primary.pull-right
-                  .i.glyphicon.glyphicon-check
-                  |  Submit Changes
-                // Button trigger modal
-                button.btn.btn-primary.btn(type='button', data-toggle='modal', data-target='#myModal')#cal-init
-                  | Send to Google Calendar
-      .col-xs-12.col-sm-6
+                      input.form-control(type='number' min=2016 max=2025 value=yearDue name='year')#due-year
+                  -else
+                    | Month:
+                    input.form-control.month-picker(type='number' min=1 max=12 value=1 name='month')
+                    | Day:
+                    input.form-control.date-number(type='number' min=1 max=31 value=1 name='datenumber')
+                    | Year:
+                    input.form-control(type='number' min=2016 max=2025 value=2016 name='year')
+                .datepicker-yes
+                  -if (task.dateDue)
+                    input.form-control#due-date-picker(type='date' value='#{task.dateDue}' name='dateDue')
+                  -else
+                    input.form-control#due-date-picker(type='date' name='dateDue')
+              .form-group
+                label Details 
+                textarea.form-control(rows='10' name='details' autocomplete='off')
+                  |#{task.details}
+              button.btn.btn-primary.pull-right
+                .i.glyphicon.glyphicon-check
+                |  Submit Changes
+              // Button trigger modal
+              button.btn.btn-primary.btn(type='button', data-toggle='modal', data-target='#myModal')#cal-init
+                | Send to Google Calendar
+    .col-xs-12.col-sm-6
 
   // Modal
   .modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')#myModal

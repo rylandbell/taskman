@@ -1,12 +1,26 @@
 body {
-	/*padding-top: 70px;*/
+	padding-top: 80px;
+	background: url(/images/ignasi_pattern_s.png) repeat 0 0;
+	background-attachment: fixed;
+}
+
+.container-body, .container-navbar {
+	width: 100%;
+	max-width: 1200px;
+}
+
+.container-body {
+	background-color: white;
+	height: calc(100vh - 100px);
 }
 
 .navbar {
 	border-radius: 0 ;
 }
 
-html.waiting, html.waiting * { cursor: wait !important; }
+html.waiting, html.waiting * { 
+	cursor: wait !important; 
+}
 
 input[type='text'] {
 	padding-left: 5px;
