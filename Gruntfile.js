@@ -1,9 +1,10 @@
 module.exports = function (grunt) {
   var nodePaths = ['app_server/**/*.js', 'app_api/**/*.js'];
   var browserPaths = ['public/javascripts/*.js'];
+  var jadePaths = ['app_server/views/**/*.jade'];
+
   var jsPaths = nodePaths.concat(browserPaths);
   jsPaths.push('Gruntfile.js');
-  var jadePaths = ['app_server/views/**/*.jade'];
 
   //load plugins
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -28,7 +29,7 @@ module.exports = function (grunt) {
         globals: {
           Modernizr: false,
           gapi: false,
-          document: false
+          google: false,
         },
         latedef: 'nofunc',
         nocomma: true,
@@ -40,7 +41,8 @@ module.exports = function (grunt) {
       browser: browserPaths,
       node: {
         options: {
-          node: true
+          node: true,
+          browser: false
         },
         files: {
           src: nodePaths
@@ -49,8 +51,6 @@ module.exports = function (grunt) {
     },
     jscs: {
       options: {
-        esnext: false, // If you use ES6 http://jscs.info/overview.html#esnext
-        verbose: true, // If you need output with rule names http://jscs.info/overview.html#verbose
         fix: false, // Autofix code style violations when possible.
       },
       autoFix: {
@@ -58,8 +58,6 @@ module.exports = function (grunt) {
           src: jsPaths,
         },
         options: {
-          esnext: false,
-          verbose: true,
           fix: true,
           requireSpaceBeforeBinaryOperators: true,
           requireSpaceAfterBinaryOperators: true,
@@ -82,7 +80,10 @@ module.exports = function (grunt) {
           requireSpacesInsideObjectBrackets: 'all',
           disallowSpaceAfterObjectKeys: true,
           disallowMultipleLineBreaks: true,
-          disallowSpacesInsideParentheses: true
+          disallowSpacesInsideParentheses: true,
+          disallowSpaceBeforeComma: true,
+          disallowSpaceBeforeBinaryOperators: [','],
+          requireSpaceBeforeObjectValues: true
         }
       },
       showErrors: {
