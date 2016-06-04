@@ -3,46 +3,46 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Task = mongoose.model('Task');
 
-var sendJsonResponse = function(res, status, content){
-	res.status(status);
-	res.json(content);
+var sendJsonResponse = function (res, status, content) {
+  res.status(status);
+  res.json(content);
 };
 
 //helper function to set up new user with instructions:
-var addIntroTask = function(ownerId){
-  var introTask;
+var addIntroTask = function (ownerId) {
+  var sampleTask;
   var introTasks = [
     {
-      name: "Mark a task completed using the checkbox on the left.",
-      details: ""
+      name: 'Mark a task completed using the checkbox on the left.',
+      details: ''
     },
     {
-      name: "Add a new task using the input field below.",
-      details: ""
+      name: 'Add a new task using the input field below.',
+      details: ''
     },
     {
-      name: "Click on \"View/Edit Details\" to learn about more features, including sending a task to your Google calendar.",
-      details: "figure it out"
+      name: 'Click on "View/Edit Details" to learn about more features, including sending a task to your Google calendar.',
+      details: 'figure it out'
     }
   ];
 
-  introTasks.forEach(function(task){
-    introTask = new Task();
-    introTask.name = task.name;
-    introTask.details = task.details;
-    introTask.ownerId = ownerId;
-    introTask.save(function(err, task) {
+  introTasks.forEach(function (task) {
+    sampleTask = new Task();
+    sampleTask.name = task.name;
+    sampleTask.details = task.details;
+    sampleTask.ownerId = ownerId;
+    sampleTask.save(function (err, task) {
       if (err) {
         console.log(err);
       }
     });
   });
-}; 
+};
 
-module.exports.register = function(req, res) {
-  if(!req.body.name || !req.body.username || !req.body.password) {
+module.exports.register = function (req, res) {
+  if (!req.body.name || !req.body.username || !req.body.password) {
     sendJsonResponse(res, 400, {
-      "message": "All fields required"
+      message: 'All fields required'
     });
     return;
   }
@@ -52,12 +52,12 @@ module.exports.register = function(req, res) {
   user.username = req.body.username;
   user.setPassword(req.body.password);
 
-  user.save(function(err,user) {
+  user.save(function (err, user) {
     var token;
     if (err) {
-      if (err.code===11000){
+      if (err.code === 11000) {
         sendJsonResponse(res, 400, {
-          "message": "That user name is already taken. Try something else."
+          message: 'That user name is already taken. Try something else.'
         });
       } else {
         sendJsonResponse(res, 404, err);
@@ -65,22 +65,22 @@ module.exports.register = function(req, res) {
     } else {
       token = user.generateJwt();
       sendJsonResponse(res, 200, {
-        "token" : token
+        token: token
       });
       addIntroTask(user._id);
     }
   });
 };
 
-module.exports.login = function(req, res) {
-  if(!req.body.username || !req.body.password) {
+module.exports.login = function (req, res) {
+  if (!req.body.username || !req.body.password) {
     sendJsonResponse(res, 400, {
-      "message": "All fields required"
+      message: 'All fields required'
     });
     return;
   }
 
-  passport.authenticate('local', function(err, user, info){
+  passport.authenticate('local', function (err, user, info) {
     var token;
 
     if (err) {
@@ -88,10 +88,10 @@ module.exports.login = function(req, res) {
       return;
     }
 
-    if(user){
+    if (user) {
       token = user.generateJwt();
       sendJsonResponse(res, 200, {
-        "token" : token
+        token: token
       });
     } else {
       sendJsonResponse(res, 401, info);
