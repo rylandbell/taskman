@@ -12,7 +12,7 @@ block content
               th#check Finished?
               th#taskname Task Name
               th#details
-                .pull-right Details
+                .pull-right Due Date
           tbody
             each task in tasks
               -var contextualClass=''
@@ -24,7 +24,9 @@ block content
                 td.task-name= task.name
                 td
                   a(href="/details/"+'#{task._id}')
-                    .pull-right View/Edit Details
+                    -if(task.dateDue)
+                      -var prettyDateAdded = task.dateDue.substring(0, 10);
+                        .pull-right= prettyDateAdded
             tr.form-row
               form(action="/", method="post", role="form").checkforname#newtaskform
                 td

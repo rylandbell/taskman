@@ -157,7 +157,7 @@ module.exports.tasksUpdateOne = function (req, res) {
             return;
           }
 
-          if (!task.ownerId || task.ownerId !== owner._id) {
+          if (!task.ownerId || task.ownerId !== owner._id.toString()) {
             console.log('Wrong owner!');
             sendJsonResponse(res, 404, {
               message: 'User not authorized to perform that action'
@@ -166,7 +166,7 @@ module.exports.tasksUpdateOne = function (req, res) {
           }
 
           for (var key in req.body) {
-            if (task.hasOwnProperty(key)) {
+            if (req.body.hasOwnProperty(key)) {
               task[key] = req.body[key];
             }
           }
