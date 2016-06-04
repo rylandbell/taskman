@@ -23,10 +23,9 @@ block content
                     input(type='checkbox', checked=task.completed, name='box_name' value="#{task._id}").completed-box
                 td.task-name= task.name
                 td
-                  a(href="/details/"+'#{task._id}')
-                    -if(task.dateDue)
-                      -var prettyDateAdded = task.dateDue.substring(0, 10);
-                        .pull-right= prettyDateAdded
+                  -if(task.dateDue)
+                    -var prettyDateAdded = task.dateDue.substring(0, 10);
+                      .pull-right= prettyDateAdded
             tr.form-row
               form(action="/", method="post", role="form").checkforname#newtaskform
                 td

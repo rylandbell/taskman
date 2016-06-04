@@ -102,6 +102,7 @@ block content
                     -var thisMonth = (today.getMonth()+1).toString();
                     -if (today.getMonth()<9){thisMonth = '0'+thisMonth};
                     -var thisDay = today.getDate();
+                    -if (thisDay<10) {thisDay = "0"+thisDay}
                     -var dateString = thisYear+'-'+thisMonth+'-'+thisDay;
                       input.form-control#event-date(type='date' name='date' value='#{dateString}')
                 .datepicker-no.form-inline 
