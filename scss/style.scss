@@ -102,3 +102,11 @@ button.success-view {
 .form-row > td {
     background-color: white;
 }
+
+.grey-box {
+	border: 2px solid lightgrey;
+	border-radius: 5px;
+	padding: 10px 10px 60px 10px;
+	margin-top: 15px;
+	box-shadow: 0 0 0.5em 0.2em #ccc;
+}
