@@ -11,8 +11,9 @@ block content
               .glyphicon.glyphicon-exclamation-sign 
               |&nbsp;&nbsp;#{message}
   .row
-    h2= task.name
-      small &nbsp; Added on #{task.dateAdded}
+    .col-xs-12
+      h3= task.name
+        small &nbsp; Added on #{task.dateAdded}
   hr
   .row
     .col-xs-12.col-md-6
@@ -22,10 +23,6 @@ block content
           .form-group
             label Task Name
             input.form-control(type='text' value='#{task.name}' name='name' autocomplete='off')
-          .checkbox
-            label
-              input#completed(type='checkbox' checked=task.completed name='completed')
-              strong Completed? 
           .form-group
             label Due Date
             .datepicker-no.form-inline#due-date-polyfill
@@ -55,6 +52,9 @@ block content
             label Details 
             textarea.form-control(rows='10' name='details' autocomplete='off')
               |#{task.details}
+          .form-group
+            label Completed?&nbsp;&nbsp;
+            input#completed(type='checkbox' checked=task.completed name='completed')
           button.btn.btn-primary
             .i.glyphicon.glyphicon-check
             |  Submit Changes

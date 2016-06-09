@@ -13,7 +13,7 @@ $('document').ready(function () {
       }
 
       var newRowHtml1 = '<tr id="';
-      var newRowHtml2 = '"><td><form action="/updatecompleted/" method="post" role="form"><input type="checkbox" name="box_name" value="';
+      var newRowHtml2 = '" class="table-link"><td><form action="/updatecompleted/" method="post" role="form"><input type="checkbox" name="box_name" value="';
       var newRowHtml3 = '" class="completed-box"></form></td><td>';
       var newRowHtml4 = '</td><td><a href="/details/';
       var newRowHtml5 = '"><div class="pull-right"></div></a></td></tr>';

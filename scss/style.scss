@@ -10,12 +10,21 @@ body {
 }
 
 .container-body {
+	border: 1px solid darkgrey;
+	box-shadow: 0 0 0.5em 0.2em #ccc;
+	margin-top: 20px;
 	background-color: white;
-	height: 100vh;
+	height: 100%;
+	padding-bottom: 21px;
 }
 
 .navbar {
 	border-radius: 0 ;
+}
+
+.container-navbar {
+	padding-left: 0;
+	padding-right: 0;
 }
 
 #logout > a {
@@ -28,6 +37,10 @@ body {
 
 html.waiting, html.waiting * { 
 	cursor: wait !important; 
+}
+
+.login-view {
+	margin-top: 21px;
 }
 
 input[type='text'] {
@@ -104,8 +117,8 @@ button.success-view {
 }
 
 .grey-box {
-	border: 2px solid lightgrey;
-	border-radius: 5px;
+	border: 1px solid darkgrey;
+	// border-radius: 5px;
 	padding: 10px 10px 60px 10px;
 	margin-top: 15px;
 	box-shadow: 0 0 0.5em 0.2em #ccc;
