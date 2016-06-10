@@ -5,19 +5,6 @@ block content
     .col-xs-12.col-sm-6
       .panel.panel-primary
         .panel-heading
-          .panel-title  Log In
-        .panel-body
-          form.form(action='/login', method='post', role='form')
-            .form-group
-              label Username: &nbsp;
-              input.form-control(type='text' name='username' autocomplete='off')
-            .form-group
-              label Password: &nbsp;
-              input.form-control(type='password' name='password' value='password')
-            button.btn.btn-default(type='submit') Submit
-    .col-xs-12.col-sm-6
-      .panel.panel-primary
-        .panel-heading
           .panel-title Create New Account
         .panel-body
           form#register-form.form(action='/register', method='post', role='form')
@@ -30,6 +17,19 @@ block content
             .form-group
               label Password: &nbsp;
               input.form-control(type='password' name='password')
+            button.btn.btn-default(type='submit') Submit
+    .col-xs-12.col-sm-6
+      .panel.panel-primary
+        .panel-heading
+          .panel-title  Log In
+        .panel-body
+          form.form(action='/login', method='post', role='form')
+            .form-group
+              label Username: &nbsp;
+              input.form-control(type='text' name='username' autocomplete='off')
+            .form-group
+              label Password: &nbsp;
+              input.form-control(type='password' name='password' value='password')
             button.btn.btn-default(type='submit') Submit
     br
   -if(message)

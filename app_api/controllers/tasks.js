@@ -92,7 +92,7 @@ module.exports.tasksReadOne = function (req, res) {
 
           if (!task.ownerId || task.ownerId !== owner._id.toString()) {
             console.log('Wrong owner!');
-            sendJsonResponse(res, 404, {
+            sendJsonResponse(res, 401, {
               message: 'User not authorized to perform that action'
             });
             return;
@@ -159,7 +159,7 @@ module.exports.tasksUpdateOne = function (req, res) {
 
           if (!task.ownerId || task.ownerId !== owner._id.toString()) {
             console.log('Wrong owner!');
-            sendJsonResponse(res, 404, {
+            sendJsonResponse(res, 401, {
               message: 'User not authorized to perform that action'
             });
             return;

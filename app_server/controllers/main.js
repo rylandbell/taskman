@@ -8,18 +8,22 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // generate error page in browser:
-var _showError = function (req, res, statusCode) {
+var _showError = function (req, res, apiResponse) {
   var title;
   var content;
-  if (statusCode === 404) {
+  if (apiResponse.statusCode === 404) {
     title = '404, content not found';
     content = 'Wuh-oh, we can\'t find your page. Maybe try again?';
+  } else if (apiResponse.statusCode === 401) {
+    title = '401, Authorization Error';
+    content = 'You are not authorized to access that page.';
   } else {
-    title = statusCode + ' error';
+    title = apiResponse.statusCode + ' error';
     content = 'Something\'s gone wrong with this request. I wonder what it could be...';
   }
 
   res.render('generic-text', {
+    message: apiResponse.body.message,
     title: title,
     content: content
   });
@@ -67,7 +71,7 @@ module.exports.list = function (req, res, next) {
     //qs transmits values as a string, so sending the raw 0-or-1-as-string value of show_completed
     qs: { show_completed: req.query.show_completed }
   };
-  request(requestOptions, function (err, response, body) {
+  request(requestOptions, function (err, apiResponse, body) {
     if (body.message) {
       console.log('message= ' + body.message);
       res.redirect('/login');
@@ -109,11 +113,11 @@ module.exports.details = function (req, res, next) {
     json: req.cookies,
     qs: {}
   };
-  request(requestOptions, function (err, response, body) {
+  request(requestOptions, function (err, apiResponse, body) {
 
     // get YYYY-MM-DD formatted dates from ISO format:
-    console.log('MESSAGE: ' + body.message);
-    if (response.statusCode === 200) {
+    console.log('MESSAGE: ' + apiResponse.body.message);
+    if (apiResponse.statusCode === 200) {
       if (body.dateAdded) {
         body.dateAdded = body.dateAdded.substring(0, 10);
       }
@@ -124,7 +128,7 @@ module.exports.details = function (req, res, next) {
 
       renderDetailsView(req, res, body);
     } else {
-      _showError(req, res, response.statusCode);
+      _showError(req, res, apiResponse);
     }
   });
 };
@@ -143,18 +147,18 @@ module.exports.newTask = function (req, res, next) {
   if (!req.body.name) {
     res.redirect('/?err=validation');
   } else {
-    request(requestOptions, function (err, response, body) {
-      if (response.statusCode === 400) {
+    request(requestOptions, function (err, apiResponse, body) {
+      if (apiResponse.statusCode === 400) {
         res.redirect('/?err=validation');
-      } else if (response.statusCode === 201) {
+      } else if (apiResponse.statusCode === 201) {
 
         //use this for Ajax calls:
-        res.send(response);
+        res.send(apiResponse);
 
         //use this to reload page with new task added:
         //res.redirect('/');
       } else {
-        _showError(req, res, response.statusCode);
+        _showError(req, res, apiResponse);
       }
     });
   }
@@ -174,17 +178,17 @@ module.exports.updateTask = function (req, res, next) {
   if (!req.body.name) {
     res.redirect('/details/' + req.params.taskid + '?err=validation');
   } else {
-    request(requestOptions, function (err, response, body) {
-      if (response.statusCode === 400 && body.name === 'ValidationError') {
+    request(requestOptions, function (err, apiResponse, body) {
+      if (apiResponse.statusCode === 400 && body.name === 'ValidationError') {
         res.redirect('/details/' + req.params.taskid + '?err=validation');
-      } else if (response.statusCode === 200) {
+      } else if (apiResponse.statusCode === 200) {
         if (req.body.gotolist) {
           res.redirect('/');
         } else {
           res.redirect('/details/' + req.params.taskid);
         }
       } else {
-        _showError(req, res, response.statusCode);
+        _showError(req, res, apiResponse);
       }
     });
   }
@@ -203,11 +207,11 @@ module.exports.updateCompleted = function (req, res, next) {
     json: apiRequestBody,
     qs: {}
   };
-  request(requestOptions, function (err, response, body) {
-    if (response.statusCode === 200) {
+  request(requestOptions, function (err, apiResponse, body) {
+    if (apiResponse.statusCode === 200) {
       res.redirect('/');
     } else {
-      _showError(req, res, response.statusCode);
+      _showError(req, res, apiResponse);
     }
   });
 };
@@ -221,11 +225,11 @@ module.exports.deleteCompleted = function (req, res, next) {
     json: req.cookies,
     qs: {}
   };
-  request(requestOptions, function (err, response, body) {
-    if (response.statusCode === 204) {
+  request(requestOptions, function (err, apiResponse, body) {
+    if (apiResponse.statusCode === 204) {
       res.redirect('/');
     } else {
-      _showError(req, res, response.statusCode);
+      _showError(req, res, apiResponse);
     }
   });
 };
@@ -258,16 +262,16 @@ module.exports.submitCredentials = function (req, res, next) {
     json: req.body,
     qs: {}
   };
-  request(requestOptions, function (err, response, body) {
+  request(requestOptions, function (err, apiResponse, body) {
     var cookieOptions = {};
     cookieOptions.maxAge = 1000 * 3600 * 24 * 7;
-    if (response.statusCode === 200) {
-      res.cookie('token', response.body.token, cookieOptions);
+    if (apiResponse.statusCode === 200) {
+      res.cookie('token', apiResponse.body.token, cookieOptions);
       res.redirect('/');
-    } else if (response.statusCode === 400 || response.statusCode === 401) {
-      renderLoginView(req, res, response.body);
+    } else if (apiResponse.statusCode === 400 || apiResponse.statusCode === 401) {
+      renderLoginView(req, res, apiResponse.body);
     } else {
-      _showError(req, res, response.statusCode);
+      _showError(req, res, apiResponse);
     }
   });
 };
@@ -281,16 +285,16 @@ module.exports.registerNew = function (req, res, next) {
     json: req.body,
     qs: {}
   };
-  request(requestOptions, function (err, response, body) {
+  request(requestOptions, function (err, apiResponse, body) {
     var cookieOptions = {};
     cookieOptions.maxAge = 1000 * 3600 * 24;
-    if (response.statusCode === 200) {
-      res.cookie('token', response.body.token, cookieOptions);
+    if (apiResponse.statusCode === 200) {
+      res.cookie('token', apiResponse.body.token, cookieOptions);
       res.redirect('/');
-    } else if (response.statusCode === 400 || response.statusCode === 401) {
-      renderLoginView(req, res, response.body);
+    } else if (apiResponse.statusCode === 400 || apiResponse.statusCode === 401) {
+      renderLoginView(req, res, apiResponse.body);
     } else {
-      _showError(req, res, response.statusCode);
+      _showError(req, res, apiResponse);
     }
   });
 };
