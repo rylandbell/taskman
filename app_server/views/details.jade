@@ -58,17 +58,16 @@ block content
           button.btn.btn-primary
             .i.glyphicon.glyphicon-check
             |  Submit Changes
-    .col-xs-12.col-md-5.col-md-offset-1
+    .col-xs-12.col-md-4.col-md-offset-2
       .grey-box 
         h4 Send to Google Calendar
         hr
-        p Bored yet? Want to check your Twitter mentions? That’s what companies like Handy are banking on. Though the startup has since made its cancellation process fully digital, it began like so many smartphone-centric services do, with a site designed to exploit the short attention span of spoiled digital natives like me. 
-        p For every luxury that you can summon with a few taps on your smartphone — Fresh razors! Preplanned meals! Someone who will scrub the grime out of your bathtub! — there is an intentional and rage-inducing labyrinth to cancellation. 
-        // Button trigger modal
+        p If you'd actually like to complete this task, I recommend blocking off some time in your schedule for it. Click the button below to send this task to a Google Calendar. Don't worry - you will have a chance to confirm event details before anything is added to your calendar. 
+        // Button to trigger calendar-add modal
         button.btn.btn-info.pull-right(type='button', data-toggle='modal', data-target='#myModal')#cal-init
           | Let's Go
 
-  // Modal
+  // Calendar-Add Modal
   .modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')#myModal
     .modal-dialog(role='document')
       .modal-content
