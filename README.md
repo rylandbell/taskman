@@ -1,6 +1,4 @@
-<snippet>
-  <content><![CDATA[
-# ${1:TaskMan}
+# TaskMan
 
 A simple task management web app I created to learn about full-stack web development. It's built on Express, Node, and MongoDB, and uses Passport to manage user accounts and OAuth 2.0 to connect with the Google Calendar API.
 
@@ -32,7 +30,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-]]></content>
-  <tabTrigger>readme</tabTrigger>
-</snippet>
